@@ -1,13 +1,17 @@
-import p1 from "@/assets/p1.jpg";
-import p2 from "@/assets/p2.jpg";
-import p3 from "@/assets/p3.jpg";
-import p4 from "@/assets/p4.jpg";
-import p5 from "@/assets/p5.jpg";
 import p6 from "@/assets/p6.jpg";
 import p7 from "@/assets/p7.jpg";
 import p8 from "@/assets/p8.jpg";
 import edit1 from "@/assets/edit1.jpg";
 import edit2 from "@/assets/edit2.jpg";
+import mcqueenA from "@/assets/image.asset.json";
+import mcqueenB from "@/assets/image-2.asset.json";
+import dgWhite from "@/assets/image-3.asset.json";
+import dgBlack from "@/assets/image-4.asset.json";
+import af1White from "@/assets/image-5.asset.json";
+import af1Black from "@/assets/image-6.asset.json";
+import sambaOg from "@/assets/image-7.asset.json";
+import nb530 from "@/assets/image-8.asset.json";
+
 
 export type Availability = "in_stock" | "low_stock" | "unknown";
 
