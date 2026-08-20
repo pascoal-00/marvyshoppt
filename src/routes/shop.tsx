@@ -39,7 +39,7 @@ function ShopPage() {
   const { q } = Route.useSearch();
   const [term, setTerm] = useState(q ?? "");
   const [category, setCategory] = useState<"all" | "sneakers" | "acessorios">("all");
-  const [maxPrice, setMaxPrice] = useState(150);
+  const [maxPrice, setMaxPrice] = useState(450);
   const [size, setSize] = useState<string | null>(null);
   const [onlyAvailable, setOnlyAvailable] = useState(false);
   const [sort, setSort] = useState<(typeof SORTS)[number]["id"]>("relevance");
@@ -88,7 +88,7 @@ function ShopPage() {
         <input
           type="range"
           min={20}
-          max={150}
+          max={450}
           step={5}
           value={maxPrice}
           aria-label="Preço máximo"
