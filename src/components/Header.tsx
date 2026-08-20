@@ -27,7 +27,7 @@ export function Header() {
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate({ to: "/shop", search: { q: term || undefined } });
+    navigate({ to: "/shop", search: { q: term } });
   };
 
   return (

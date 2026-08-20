@@ -34,7 +34,7 @@ function ProductPage() {
   const { slug } = Route.useParams();
   const product = getProduct(slug)!;
   const { addItem, toggleWishlist, isWished } = useStore();
-  const [size, setSize] = useState<string | null>(product.sizes.length === 1 ? product.sizes[0] : null);
+  const [size, setSize] = useState<string | null>(product.sizes.length === 1 ? (product.sizes[0] ?? null) : null);
   const [qty, setQty] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [activeImage, setActiveImage] = useState(0);

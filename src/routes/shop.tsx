@@ -3,11 +3,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { products } from "@/lib/products";
 import { ProductGrid } from "@/components/ProductCard";
 
-type ShopSearch = { q?: string };
+type ShopSearch = { q: string };
 
 export const Route = createFileRoute("/shop")({
   validateSearch: (search: Record<string, unknown>): ShopSearch => ({
-    q: typeof search.q === "string" && search.q.length > 0 ? search.q : undefined,
+    q: typeof search["q"] === "string" ? (search["q"] as string) : "",
   }),
   head: () => ({
     meta: [
@@ -37,7 +37,7 @@ const ALL_SIZES = ["39", "40", "41", "42", "43", "44", "45", "S", "M", "L", "XL"
 
 function ShopPage() {
   const { q } = Route.useSearch();
-  const [term, setTerm] = useState(q ?? "");
+  const [term, setTerm] = useState(q);
   const [category, setCategory] = useState<"all" | "sneakers" | "acessorios">("all");
   const [maxPrice, setMaxPrice] = useState(150);
   const [size, setSize] = useState<string | null>(null);

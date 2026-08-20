@@ -62,7 +62,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       <button
         type="button"
-        onClick={() => addItem(product, product.sizes[0])}
+        onClick={() => addItem(product, product.sizes[0] ?? "")}
         className="mt-3 w-full border border-ink px-3 py-2 text-[11px] font-semibold tracking-[0.18em] transition-colors hover:bg-ink hover:text-background"
       >
         ADICIONAR
