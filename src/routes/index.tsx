@@ -6,7 +6,7 @@ import hero from "@/assets/hero.jpg";
 import edit1 from "@/assets/edit1.jpg";
 import edit2 from "@/assets/edit2.jpg";
 import catAcc from "@/assets/cat-acc.jpg";
-import p3 from "@/assets/p3.jpg";
+import campaign from "@/assets/image-7.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -148,7 +148,7 @@ function Home() {
       <section className="bg-ink text-background">
         <div className="mx-auto grid max-w-[1400px] items-stretch gap-0 lg:grid-cols-[1.2fr_1fr]">
           <img
-            src={p3}
+            src={campaign.url}
             alt="M-SHOP STREET 03"
             loading="lazy"
             className="h-full max-h-[560px] w-full object-cover"

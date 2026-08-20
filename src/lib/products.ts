@@ -242,10 +242,10 @@ export const products: Product[] = [
 ];
 
 export const categories = [
-  { slug: "sneakers", label: "SNEAKERS", image: p3 },
+  { slug: "sneakers", label: "SNEAKERS", image: af1White.url },
   { slug: "acessorios", label: "ACESSÓRIOS", image: p6 },
-  { slug: "new-in", label: "NEW IN", image: p4 },
-  { slug: "best-sellers", label: "BEST SELLERS", image: p1 },
+  { slug: "new-in", label: "NEW IN", image: sambaOg.url },
+  { slug: "best-sellers", label: "BEST SELLERS", image: mcqueenA.url },
 ];
 
 export const styles = [
