@@ -1,13 +1,17 @@
-import p1 from "@/assets/p1.jpg";
-import p2 from "@/assets/p2.jpg";
-import p3 from "@/assets/p3.jpg";
-import p4 from "@/assets/p4.jpg";
-import p5 from "@/assets/p5.jpg";
 import p6 from "@/assets/p6.jpg";
 import p7 from "@/assets/p7.jpg";
 import p8 from "@/assets/p8.jpg";
 import edit1 from "@/assets/edit1.jpg";
 import edit2 from "@/assets/edit2.jpg";
+import mcqueenA from "@/assets/image.asset.json";
+import mcqueenB from "@/assets/image-2.asset.json";
+import dgWhite from "@/assets/image-3.asset.json";
+import dgBlack from "@/assets/image-4.asset.json";
+import af1White from "@/assets/image-5.asset.json";
+import af1Black from "@/assets/image-6.asset.json";
+import sambaOg from "@/assets/image-7.asset.json";
+import nb530 from "@/assets/image-8.asset.json";
+
 
 export type Availability = "in_stock" | "low_stock" | "unknown";
 
@@ -34,89 +38,159 @@ const APPAREL_SIZES = ["S", "M", "L", "XL"];
 export const products: Product[] = [
   {
     id: "1",
-    slug: "m-shop-court-02",
-    name: "M-SHOP COURT 02",
-    price: 89,
-    category: "sneakers",
-    style: "everyday",
-    images: [p1, edit1],
-    sizes: SNEAKER_SIZES,
-    availability: "in_stock",
-    isNew: true,
-    bestSeller: true,
-    description:
-      "Silhueta court em pele lisa branca com sola robusta. Um clássico limpo que combina com tudo.",
-    details: ["Parte superior em pele sintética premium", "Sola em borracha de perfil alto", "Interior acolchoado", "Corte low-top unissexo"],
-    createdAt: "2026-08-12",
-  },
-  {
-    id: "2",
-    slug: "m-shop-mono-01",
-    name: "M-SHOP MONO 01",
-    price: 95,
+    slug: "alexander-mcqueen-oversized-sneaker",
+    name: "ALEXANDER MCQUEEN OVERSIZED SNEAKER",
+    price: 390,
     category: "sneakers",
     style: "street",
-    images: [p2, edit2],
-    sizes: SNEAKER_SIZES,
-    availability: "in_stock",
-    isNew: true,
-    bestSeller: false,
-    description:
-      "Total black, sem ruído. Construção minimalista para quem quer discrição com atitude.",
-    details: ["Acabamento total black", "Sola vulcanizada", "Atacadores em algodão encerado", "Corte low-top unissexo"],
-    createdAt: "2026-08-10",
-  },
-  {
-    id: "3",
-    slug: "m-shop-street-03",
-    name: "M-SHOP STREET 03",
-    price: 110,
-    category: "sneakers",
-    style: "street",
-    images: [p3, edit1],
+    images: [mcqueenA.url, mcqueenB.url],
     sizes: SNEAKER_SIZES,
     availability: "low_stock",
     isNew: true,
     bestSeller: true,
     description:
-      "Contraste preto e branco com sola oversized. Presença imediata em qualquer look.",
-    details: ["Pele com acabamento mate", "Sola oversized 4 cm", "Reforço no calcanhar", "Corte low-top unissexo"],
-    createdAt: "2026-08-08",
+      "O icónico Oversized Sneaker em pele preta lisa com a sola oversized branca. Silhueta de assinatura da Alexander McQueen, presença imediata em qualquer look.",
+    details: [
+      "Pele de bezerro com acabamento liso",
+      "Sola oversized em borracha branca",
+      "Logo Alexander McQueen no calcanhar",
+      "Corte low-top unissexo",
+    ],
+    createdAt: "2026-08-14",
+  },
+  {
+    id: "2",
+    slug: "dolce-gabbana-portofino-dg-white",
+    name: "DOLCE & GABBANA PORTOFINO DG WHITE",
+    price: 420,
+    category: "sneakers",
+    style: "street",
+    images: [dgWhite.url, dgBlack.url],
+    sizes: SNEAKER_SIZES,
+    availability: "low_stock",
+    isNew: true,
+    bestSeller: true,
+    description:
+      "Portofino em pele branca com o logo DG em preto na lateral e contraforte contrastante. Luxo italiano em versão sneaker.",
+    details: [
+      "Pele de novilho branca",
+      "Logo DG impresso na lateral",
+      "Contraforte em pele preta",
+      "Sola em borracha leve",
+    ],
+    createdAt: "2026-08-13",
+  },
+  {
+    id: "3",
+    slug: "dolce-gabbana-portofino-black",
+    name: "DOLCE & GABBANA PORTOFINO BLACK",
+    price: 420,
+    category: "sneakers",
+    style: "street",
+    images: [dgBlack.url, dgWhite.url],
+    sizes: SNEAKER_SIZES,
+    availability: "unknown",
+    isNew: true,
+    bestSeller: false,
+    description:
+      "Versão preta do Portofino, com língua em prata metalizada e sola branca. Contraste elegante para uso diário.",
+    details: [
+      "Pele preta com acabamento mate",
+      "Detalhe metalizado na língua",
+      "Lettering Dolce & Gabbana no calcanhar",
+      "Sola branca em borracha",
+    ],
+    createdAt: "2026-08-11",
   },
   {
     id: "4",
-    slug: "m-shop-runner-01",
-    name: "M-SHOP RUNNER 01",
-    price: 99,
+    slug: "nike-air-force-1-07-white",
+    name: "NIKE AIR FORCE 1 '07 WHITE",
+    price: 129,
     category: "sneakers",
     style: "everyday",
-    images: [p4, edit2],
+    images: [af1White.url, af1Black.url],
+    sizes: SNEAKER_SIZES,
+    availability: "in_stock",
+    isNew: true,
+    bestSeller: true,
+    description:
+      "O clássico total white que nunca sai de moda. Pele lisa, perfurações no antepé e amortecimento Nike Air.",
+    details: [
+      "Parte superior em pele",
+      "Amortecimento Nike Air na entressola",
+      "Sola em borracha com padrão pivot",
+      "Corte low-top unissexo",
+    ],
+    createdAt: "2026-08-10",
+  },
+  {
+    id: "5",
+    slug: "nike-air-force-1-07-black",
+    name: "NIKE AIR FORCE 1 '07 BLACK",
+    price: 129,
+    category: "sneakers",
+    style: "everyday",
+    images: [af1Black.url, af1White.url],
+    sizes: SNEAKER_SIZES,
+    availability: "in_stock",
+    isNew: false,
+    bestSeller: true,
+    description:
+      "Air Force 1 em total black, com detalhes prateados nos ilhoses. Versátil, resistente e sempre atual.",
+    details: [
+      "Pele preta com Swoosh tonal",
+      "Amortecimento Nike Air",
+      "Sola em borracha",
+      "Corte low-top unissexo",
+    ],
+    createdAt: "2026-08-05",
+  },
+  {
+    id: "9",
+    slug: "adidas-samba-og-white-gum",
+    name: "ADIDAS SAMBA OG WHITE GUM",
+    price: 139,
+    category: "sneakers",
+    style: "everyday",
+    images: [sambaOg.url, edit1],
+    sizes: SNEAKER_SIZES,
+    availability: "low_stock",
+    isNew: true,
+    bestSeller: true,
+    description:
+      "Samba OG em pele branca com três riscas pretas, biqueira em camurça e sola gum. O clássico terrace que domina as ruas.",
+    details: [
+      "Pele branca com três riscas pretas",
+      "Biqueira em camurça (T-toe)",
+      "Sola gum de borracha",
+      "Corte low-top unissexo",
+    ],
+    createdAt: "2026-08-09",
+  },
+  {
+    id: "10",
+    slug: "new-balance-530-white-silver",
+    name: "NEW BALANCE 530 WHITE SILVER",
+    price: 149,
+    category: "sneakers",
+    style: "sport",
+    images: [nb530.url, edit2],
     sizes: SNEAKER_SIZES,
     availability: "in_stock",
     isNew: true,
     bestSeller: false,
     description:
-      "Runner retro em camurça e nylon com sola gum. Conforto diário com leitura vintage.",
-    details: ["Camurça e nylon", "Sola gum de borracha", "Palmilha amortecida", "Corte low-top unissexo"],
-    createdAt: "2026-08-06",
+      "New Balance 530 em branco, prateado e navy. Estética retro running com amortecimento ABZORB para uso diário.",
+    details: [
+      "Malha e sintético com detalhes prateados",
+      "Amortecimento ABZORB",
+      "Logo N em relevo",
+      "Corte low-top unissexo",
+    ],
+    createdAt: "2026-08-07",
   },
-  {
-    id: "5",
-    slug: "m-shop-tech-05",
-    name: "M-SHOP TECH 05",
-    price: 125,
-    category: "sneakers",
-    style: "sport",
-    images: [p5, edit1],
-    sizes: SNEAKER_SIZES,
-    availability: "unknown",
-    isNew: false,
-    bestSeller: true,
-    description:
-      "Chunky runner em malha técnica e detalhes prateados. Volume, tecnologia e street.",
-    details: ["Malha técnica respirável", "Detalhes refletores", "Entressola de duas densidades", "Corte low-top unissexo"],
-    createdAt: "2026-07-28",
-  },
+
   {
     id: "6",
     slug: "m-shop-cap-01",
@@ -168,10 +242,10 @@ export const products: Product[] = [
 ];
 
 export const categories = [
-  { slug: "sneakers", label: "SNEAKERS", image: p3 },
+  { slug: "sneakers", label: "SNEAKERS", image: af1White.url },
   { slug: "acessorios", label: "ACESSÓRIOS", image: p6 },
-  { slug: "new-in", label: "NEW IN", image: p4 },
-  { slug: "best-sellers", label: "BEST SELLERS", image: p1 },
+  { slug: "new-in", label: "NEW IN", image: sambaOg.url },
+  { slug: "best-sellers", label: "BEST SELLERS", image: mcqueenA.url },
 ];
 
 export const styles = [
