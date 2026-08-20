@@ -92,7 +92,7 @@ function Home() {
 
       {/* TRUST */}
       <section className="border-b border-border bg-surface">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-px px-4 py-8 lg:grid-cols-4 lg:px-8">
+        <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-8 px-4 py-8 lg:grid-cols-4 lg:px-8">
           {TRUST.map((i) => (
             <div key={i.t} className="px-2">
               <p className="eyebrow">{i.t}</p>

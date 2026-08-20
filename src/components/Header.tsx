@@ -47,7 +47,7 @@ export function Header() {
         </button>
 
         <div className="hidden lg:block">
-          <Logo className="h-7" />
+          <Logo className="h-9" />
         </div>
 
         <nav className="hidden justify-center gap-7 lg:flex">
@@ -65,7 +65,7 @@ export function Header() {
         </nav>
 
         <div className="flex justify-center lg:hidden">
-          <Logo className="h-6" />
+          <Logo className="h-8" />
         </div>
 
         <div className="flex items-center justify-end gap-4">
@@ -112,7 +112,7 @@ export function Header() {
       {menuOpen && (
         <div className="fixed inset-0 z-60 bg-ink lg:hidden">
           <div className="flex items-center justify-between px-4 py-4">
-            <Logo className="h-6" />
+            <Logo className="h-8" />
             <button type="button" aria-label="Fechar menu" onClick={() => setMenuOpen(false)}>
               <X className="h-6 w-6" />
             </button>
