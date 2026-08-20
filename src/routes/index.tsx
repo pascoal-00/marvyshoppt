@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { categories, products, styles } from "@/lib/products";
 import { ProductCard } from "@/components/ProductCard";
@@ -261,8 +262,6 @@ function Home() {
     </div>
   );
 }
-
-import { useState } from "react";
 
 function NewsletterForm() {
   const [email, setEmail] = useState("");
