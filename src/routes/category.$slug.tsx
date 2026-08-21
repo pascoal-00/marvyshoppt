@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { categories, getByCategorySlug } from "@/lib/products";
+import { filterByCategorySlug } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-context";
+import { getCategoryMeta } from "@/lib/catalog.functions";
 import { ProductGrid } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/category/$slug")({
-  loader: ({ params }) => {
-    const category = categories.find((c) => c.slug === params.slug);
+  loader: async ({ params }) => {
+    const category = await getCategoryMeta({ data: { slug: params.slug } });
     if (!category) throw notFound();
     return { label: category.label };
   },
@@ -28,7 +30,8 @@ export const Route = createFileRoute("/category/$slug")({
 function CategoryPage() {
   const { slug } = Route.useParams();
   const { label } = Route.useLoaderData();
-  const items = getByCategorySlug(slug);
+  const { products } = useCatalog();
+  const items = filterByCategorySlug(products, slug);
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-10 lg:px-8">

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { products, type Product } from "./products";
+import { type Product } from "./catalog";
+import { useCatalog } from "./catalog-context";
 
 export type CartItem = {
   key: string;
@@ -31,6 +32,7 @@ const CART_KEY = "mshop.cart.v1";
 const WISH_KEY = "mshop.wishlist.v1";
 
 export function StoreProvider({ children }: { children: ReactNode }) {
+  const { products } = useCatalog();
   const [items, setItems] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -107,7 +109,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       openDrawer: () => setDrawerOpen(true),
       closeDrawer: () => setDrawerOpen(false),
     };
-  }, [items, wishlist, drawerOpen, hydrated, addItem, removeItem, setQuantity, toggleWishlist]);
+  }, [items, wishlist, drawerOpen, hydrated, addItem, removeItem, setQuantity, toggleWishlist, products]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

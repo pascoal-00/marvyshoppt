@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
-import { availabilityLabel, formatPrice, type Product } from "@/lib/products";
+import { availabilityLabel, formatPrice, type Product } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -28,6 +28,11 @@ export function ProductCard({ product }: { product: Product }) {
             loading="lazy"
             className="absolute inset-0 h-full w-full scale-105 object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           />
+          {product.productType === "replica" && (
+            <span className="absolute bottom-0 left-0 right-0 bg-background/90 px-2 py-1 text-center text-[9px] font-semibold tracking-[0.14em] text-muted-foreground">
+              RÉPLICA/REPRODUÇÃO
+            </span>
+          )}
           {product.isNew && (
             <span className="absolute left-0 top-0 bg-ink px-2 py-1 text-[10px] font-semibold tracking-[0.18em] text-background">
               NEW
@@ -53,7 +58,16 @@ export function ProductCard({ product }: { product: Product }) {
               {product.name}
             </Link>
           </h3>
-          <p className="mt-1 text-sm">{formatPrice(product.price)}</p>
+          <p className="mt-1 flex items-baseline gap-2 text-sm">
+            {product.compareAtPrice && product.compareAtPrice > product.price && (
+              <span className="text-xs text-muted-foreground line-through">
+                {formatPrice(product.compareAtPrice, product.currency)}
+              </span>
+            )}
+            <span className={product.onSale ? "text-accent" : ""}>
+              {formatPrice(product.price, product.currency)}
+            </span>
+          </p>
           <p className="mt-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
             {availabilityLabel[product.availability]}
           </p>

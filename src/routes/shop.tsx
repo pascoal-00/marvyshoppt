@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { products } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog-context";
 import { ProductGrid } from "@/components/ProductCard";
 
 type ShopSearch = { q?: string | undefined };
@@ -37,8 +37,10 @@ const ALL_SIZES = ["39", "40", "41", "42", "43", "44", "45", "S", "M", "L", "XL"
 
 function ShopPage() {
   const { q } = Route.useSearch();
+  const { products, categories: allCategories } = useCatalog();
+  void allCategories;
   const [term, setTerm] = useState(q ?? "");
-  const [category, setCategory] = useState<"all" | "sneakers" | "acessorios">("all");
+  const [category, setCategory] = useState<string>("all");
   const [maxPrice, setMaxPrice] = useState(450);
   const [size, setSize] = useState<string | null>(null);
   const [onlyAvailable, setOnlyAvailable] = useState(false);
@@ -59,7 +61,7 @@ function ShopPage() {
     if (sort === "price-asc") list.sort((a, b) => a.price - b.price);
     if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
     return list;
-  }, [category, maxPrice, size, onlyAvailable, term, sort]);
+  }, [products, category, maxPrice, size, onlyAvailable, term, sort]);
 
   const filters = (
     <div className="space-y-8">
@@ -74,7 +76,7 @@ function ShopPage() {
             <button
               key={c.id}
               type="button"
-              onClick={() => setCategory(c.id as typeof category)}
+              onClick={() => setCategory(c.id)}
               className={category === c.id ? "border-b border-ink" : "text-muted-foreground"}
             >
               {c.label}

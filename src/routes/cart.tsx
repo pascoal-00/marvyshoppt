@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { formatPrice, products } from "@/lib/products";
+import { formatPrice } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-context";
+import { useOrderSubmit } from "@/lib/use-order-submit";
 import { useStore } from "@/lib/store";
 import { orderUrl } from "@/lib/whatsapp";
 
@@ -24,6 +26,8 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const { items, setQuantity, removeItem, subtotal, hydrated } = useStore();
+  const { products, settings } = useCatalog();
+  const submitOrder = useOrderSubmit();
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-14 lg:px-8">
@@ -65,7 +69,7 @@ function CartPage() {
                         </h2>
                         <p className="mt-1 text-xs text-muted-foreground">Tamanho: {item.size}</p>
                         <p className="mt-1 text-xs text-muted-foreground">
-                          Preço unitário: {formatPrice(p.price)}
+                          Preço unitário: {formatPrice(p.price, p.currency)}
                         </p>
                       </div>
                       <button
@@ -97,10 +101,11 @@ function CartPage() {
               <span className="font-semibold">{formatPrice(subtotal)}</span>
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Envio: confirmado pela M-Shop após o pedido.
+              Envio: {settings.shippingFrom}. {settings.shippingNote}
             </p>
             <a
-              href={orderUrl(items, subtotal)}
+              href={orderUrl(items, subtotal, products, settings)}
+              onClick={() => submitOrder()}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 block bg-ink px-6 py-4 text-center text-[11px] font-semibold tracking-[0.2em] text-background transition-colors hover:bg-accent"

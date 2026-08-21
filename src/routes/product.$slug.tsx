@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
-import { availabilityLabel, formatPrice, getProduct, products } from "@/lib/products";
+import { availabilityLabel, formatPrice } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-context";
+import { getProductMeta } from "@/lib/catalog.functions";
 import { useStore } from "@/lib/store";
 import { ProductCard } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/product/$slug")({
-  loader: ({ params }) => {
-    const product = getProduct(params.slug);
+  loader: async ({ params }) => {
+    const product = await getProductMeta({ data: { slug: params.slug } });
     if (!product) throw notFound();
-    return { name: product.name, description: product.description };
+    return { name: product.name, description: product.description, image: product.image };
   },
   head: ({ params, loaderData }) => {
     if (!loaderData) {
@@ -23,6 +25,12 @@ export const Route = createFileRoute("/product/$slug")({
         { property: "og:description", content: loaderData.description },
         { property: "og:type", content: "product" },
         { property: "og:url", content: `/product/${params.slug}` },
+        ...(loaderData.image && loaderData.image.startsWith("https://")
+          ? [
+              { property: "og:image", content: loaderData.image },
+              { name: "twitter:image", content: loaderData.image },
+            ]
+          : []),
       ],
       links: [{ rel: "canonical", href: `/product/${params.slug}` }],
     };
@@ -32,7 +40,8 @@ export const Route = createFileRoute("/product/$slug")({
 
 function ProductPage() {
   const { slug } = Route.useParams();
-  const product = getProduct(slug)!;
+  const { products, settings } = useCatalog();
+  const product = products.find((p) => p.slug === slug)!;
   const { addItem, toggleWishlist, isWished } = useStore();
   const [size, setSize] = useState<string | null>(product.sizes.length === 1 ? (product.sizes[0] ?? null) : null);
   const [qty, setQty] = useState(1);
@@ -86,13 +95,33 @@ function ProductPage() {
 
         <div>
           <h1 className="display text-3xl md:text-4xl">{product.name}</h1>
-          <p className="mt-3 text-xl">{formatPrice(product.price)}</p>
+          <p className="mt-3 flex items-baseline gap-3 text-xl">
+            {product.compareAtPrice && product.compareAtPrice > product.price && (
+              <span className="text-base text-muted-foreground line-through">
+                {formatPrice(product.compareAtPrice, product.currency)}
+              </span>
+            )}
+            <span className={product.onSale ? "text-accent" : ""}>
+              {formatPrice(product.price, product.currency)}
+            </span>
+            {product.onSale && (
+              <span className="bg-accent px-2 py-1 text-[10px] font-semibold tracking-[0.16em] text-background">
+                PROMOÇÃO
+              </span>
+            )}
+          </p>
           <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
             {availabilityLabel[product.availability]}
           </p>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
             {product.description}
           </p>
+
+          {product.productType === "replica" && (
+            <p className="mt-6 border-l-2 border-accent bg-surface px-4 py-3 text-xs leading-relaxed text-foreground">
+              {settings.replicaNotice}
+            </p>
+          )}
 
           <div className="mt-8">
             <div className="flex items-center justify-between">
@@ -157,11 +186,23 @@ function ProductPage() {
               </dd>
             </div>
             <div className="py-5">
+              <dt className="eyebrow">Informação do produto</dt>
+              <dd className="mt-3 space-y-1 text-muted-foreground">
+                {product.productType === "replica" ? (
+                  <p>{settings.replicaNotice}</p>
+                ) : product.productType === "original" ? (
+                  <p>Produto original/autorizado da marca apresentada.</p>
+                ) : (
+                  <p>Produto sem marca, produzido para a M-Shop.</p>
+                )}
+              </dd>
+            </div>
+            <div className="py-5">
               <dt className="eyebrow">Envio</dt>
               <dd className="mt-3 space-y-1 text-muted-foreground">
-                <p>Envio para Portugal desde €13,50.</p>
-                <p>Prazo estimado: até 2 semanas.</p>
-                <p>O valor final do envio será confirmado de acordo com a quantidade e características da encomenda.</p>
+                <p>Envio para Portugal {settings.shippingFrom.toLowerCase()}.</p>
+                <p>Prazo estimado: {settings.deliveryTime.toLowerCase()}.</p>
+                <p>{settings.shippingNote}</p>
               </dd>
             </div>
             <div className="py-5">
