@@ -2,9 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { mapCategory, mapProduct, mapSettings, DEFAULT_SETTINGS, type Catalog } from "./catalog";
-import { createPublicClient } from "./supabase-public.server";
 
 export const getCatalog = createServerFn({ method: "GET" }).handler(async (): Promise<Catalog> => {
+  const { createPublicClient } = await import("./supabase-public.server");
   const supabase = createPublicClient();
   const [productsRes, categoriesRes, settingsRes] = await Promise.all([
     supabase.from("products").select("*").eq("active", true).order("sort_order", { ascending: true }),
@@ -71,15 +71,7 @@ export const createOrder = createServerFn({ method: "POST" })
       .single();
     if (orderError || !order) throw new Error("Não foi possível registar o pedido.");
 
-    await supabaseAdmin
-      .from("order_items")
-      .insert(items.map((i) => ({ ...i, order_id: order.id })));
+    await supabaseAdmin.from("order_items").insert(items.map((i) => ({ ...i, order_id: order.id })));
 
     return { orderNumber: order.order_number, subtotal };
   });
-
-export const claimAdmin = createServerFn({ method: "POST" }).handler(async () => {
-  const { requireSupabaseAuth } = await import("@/integrations/supabase/auth-middleware");
-  void requireSupabaseAuth;
-  return { ok: false };
-});
