@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { categories, products, styles } from "@/lib/products";
+import { styles } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog-context";
 import { ProductCard } from "@/components/ProductCard";
 import hero from "@/assets/hero.jpg";
 import edit1 from "@/assets/edit1.jpg";
@@ -30,13 +31,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const TRUST = [
-  { t: "ENVIO PARA PORTUGAL", d: "Desde €13,50" },
-  { t: "PRAZO ESTIMADO", d: "Até 2 semanas" },
-  { t: "PEDIDO VIA WHATSAPP", d: "Atendimento personalizado" },
-  { t: "PAGAMENTO", d: "Confirmado após o pedido" },
-];
-
 const STEPS = [
   { n: "01", t: "ESCOLHE", d: "Encontra os produtos que queres." },
   { n: "02", t: "ADICIONA AO CARRINHO", d: "Seleciona tamanho e quantidade." },
@@ -45,7 +39,14 @@ const STEPS = [
 ];
 
 function Home() {
+  const { products, categories, settings } = useCatalog();
   const newIn = products.filter((p) => p.isNew).slice(0, 4);
+  const TRUST = [
+    { t: "ENVIO PARA PORTUGAL", d: settings.shippingFrom },
+    { t: "PRAZO ESTIMADO", d: settings.deliveryTime },
+    { t: "PEDIDO VIA WHATSAPP", d: "Atendimento personalizado" },
+    { t: "PAGAMENTO", d: "Confirmado após o pedido" },
+  ];
 
   return (
     <div>
@@ -114,7 +115,7 @@ function Home() {
               className="group relative block overflow-hidden bg-surface"
             >
               <img
-                src={c.slug === "acessorios" ? catAcc : c.image}
+                src={c.image ?? (c.slug === "acessorios" ? catAcc : hero)}
                 alt={c.label}
                 loading="lazy"
                 className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105"
