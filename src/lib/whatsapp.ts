@@ -1,34 +1,54 @@
-import { formatPrice, products } from "./products";
+import { formatPrice, type Product, type StoreSettings } from "./catalog";
 import type { CartItem } from "./store";
 
-export const WHATSAPP_NUMBER = "244957280181";
-export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+export function whatsappUrl(settings: StoreSettings) {
+  return `https://wa.me/${settings.whatsappNumber}`;
+}
 
-export function buildOrderMessage(items: CartItem[], subtotal: number) {
-  const lines = items.map((item) => {
+export function buildOrderMessage(
+  items: CartItem[],
+  subtotal: number,
+  products: Product[],
+  settings: StoreSettings,
+  orderNumber?: string,
+) {
+  const lines = items.flatMap((item) => {
     const p = products.find((pr) => pr.id === item.productId);
-    if (!p) return "";
+    if (!p) return [];
     return [
-      `• ${p.name}`,
-      `Tamanho: ${item.size}`,
-      `Quantidade: ${item.quantity}`,
-      `Preço: ${formatPrice(p.price)}`,
-    ].join("\n");
+      [
+        `• ${p.name}`,
+        `Tamanho: ${item.size}`,
+        `Quantidade: ${item.quantity}`,
+        `Preço: ${formatPrice(p.price, p.currency)}`,
+      ].join("\n"),
+    ];
   });
 
   return [
-    "Olá, M-Shop! Gostaria de fazer um pedido:",
+    `Olá, ${settings.storeName}! Gostaria de fazer um pedido:`,
+    orderNumber ? `Nº do pedido: ${orderNumber}` : "",
     "",
     lines.join("\n\n"),
     "",
     `Subtotal: ${formatPrice(subtotal)}`,
     "",
-    "Gostaria de confirmar a disponibilidade, o valor final do envio para Portugal e as condições de pagamento.",
+    `Gostaria de confirmar a disponibilidade, o valor final do envio para Portugal (${settings.shippingFrom}) e as condições de pagamento.`,
     "",
     "Obrigado.",
-  ].join("\n");
+  ]
+    .filter((line, index) => !(index === 1 && line === ""))
+    .join("\n");
 }
 
-export function orderUrl(items: CartItem[], subtotal: number) {
-  return `${WHATSAPP_URL}?text=${encodeURIComponent(buildOrderMessage(items, subtotal))}`;
+export function orderUrl(
+  items: CartItem[],
+  subtotal: number,
+  products: Product[],
+  settings: StoreSettings,
+  orderNumber?: string,
+) {
+  return `${whatsappUrl(settings)}?text=${encodeURIComponent(
+    buildOrderMessage(items, subtotal, products, settings, orderNumber),
+  )}`;
 }
