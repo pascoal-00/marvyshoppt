@@ -75,3 +75,36 @@ export const createOrder = createServerFn({ method: "POST" })
 
     return { orderNumber: order.order_number, subtotal };
   });
+
+export const getProductMeta = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => z.object({ slug: z.string().max(160) }).parse(input))
+  .handler(async ({ data }) => {
+    const { createPublicClient } = await import("./supabase-public.server");
+    const supabase = createPublicClient();
+    const { data: row } = await supabase
+      .from("products")
+      .select("name, description, images")
+      .eq("slug", data.slug)
+      .eq("active", true)
+      .maybeSingle();
+    if (!row) return null;
+    return {
+      name: row.name as string,
+      description: (row.description as string) ?? "",
+      image: ((row.images as string[]) ?? [])[0] ?? null,
+    };
+  });
+
+export const getCategoryMeta = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) => z.object({ slug: z.string().max(160) }).parse(input))
+  .handler(async ({ data }) => {
+    const { createPublicClient } = await import("./supabase-public.server");
+    const supabase = createPublicClient();
+    const { data: row } = await supabase
+      .from("categories")
+      .select("label")
+      .eq("slug", data.slug)
+      .eq("active", true)
+      .maybeSingle();
+    return row ? { label: row.label as string } : null;
+  });
