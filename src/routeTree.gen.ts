@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as Console9f3d2aRouteImport } from './routes/console-9f3d2a'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as WishlistRouteImport } from './routes/wishlist'
@@ -38,14 +38,14 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Console9f3d2aRoute = Console9f3d2aRouteImport.update({
+  id: '/console-9f3d2a',
+  path: '/console-9f3d2a',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
@@ -122,8 +122,8 @@ const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
+  '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
@@ -141,8 +141,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
+  '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
@@ -161,8 +161,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
+  '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
@@ -183,8 +183,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
-    | '/auth'
     | '/cart'
+    | '/console-9f3d2a'
     | '/how-it-works'
     | '/shop'
     | '/wishlist'
@@ -202,8 +202,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth'
     | '/cart'
+    | '/console-9f3d2a'
     | '/how-it-works'
     | '/shop'
     | '/wishlist'
@@ -221,8 +221,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
-    | '/auth'
     | '/cart'
+    | '/console-9f3d2a'
     | '/how-it-works'
     | '/shop'
     | '/wishlist'
@@ -242,8 +242,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AuthRoute: typeof AuthRoute
   CartRoute: typeof CartRoute
+  Console9f3d2aRoute: typeof Console9f3d2aRoute
   HowItWorksRoute: typeof HowItWorksRoute
   ShopRoute: typeof ShopRoute
   WishlistRoute: typeof WishlistRoute
@@ -268,18 +268,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/cart': {
       id: '/cart'
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/console-9f3d2a': {
+      id: '/console-9f3d2a'
+      path: '/console-9f3d2a'
+      fullPath: '/console-9f3d2a'
+      preLoaderRoute: typeof Console9f3d2aRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/how-it-works': {
@@ -420,8 +420,8 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  AuthRoute: AuthRoute,
   CartRoute: CartRoute,
+  Console9f3d2aRoute: Console9f3d2aRoute,
   HowItWorksRoute: HowItWorksRoute,
   ShopRoute: ShopRoute,
   WishlistRoute: WishlistRoute,
