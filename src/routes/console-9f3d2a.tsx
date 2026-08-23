@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { claimFirstAdmin } from "@/lib/admin.functions";
 import { Logo } from "@/components/Logo";
 
-export const Route = createFileRoute("/auth")({
+export const Route = createFileRoute("/console-9f3d2a")({
   ssr: false,
   head: () => ({
     meta: [

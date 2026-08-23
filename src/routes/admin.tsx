@@ -9,12 +9,12 @@ export const Route = createFileRoute("/admin")({
   ssr: false,
   beforeLoad: async () => {
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/auth" });
+    if (error || !data.user) throw redirect({ to: "/console-9f3d2a" });
     const { data: isAdmin } = await supabase.rpc("has_role", {
       _user_id: data.user.id,
       _role: "admin",
     });
-    if (!isAdmin) throw redirect({ to: "/auth" });
+    if (!isAdmin) throw redirect({ to: "/console-9f3d2a" });
     return { user: data.user };
   },
   head: () => ({
@@ -50,7 +50,7 @@ function AdminLayout() {
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
+    navigate({ to: "/console-9f3d2a", replace: true });
   };
 
   const nav = (
