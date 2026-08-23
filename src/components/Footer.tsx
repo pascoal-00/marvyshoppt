@@ -55,9 +55,12 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-14 border-t border-white/10 pt-6 text-[11px] tracking-[0.14em] text-background/50">
-          © 2026 M-SHOP. TODOS OS DIREITOS RESERVADOS.
-        </p>
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-[11px] tracking-[0.14em] text-background/50">
+          <p>© 2026 M-SHOP. TODOS OS DIREITOS RESERVADOS.</p>
+          <Link to="/auth" className="transition-colors hover:text-background">
+            LOGIN ADMIN
+          </Link>
+        </div>
       </div>
     </footer>
   );
