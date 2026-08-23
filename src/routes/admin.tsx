@@ -104,6 +104,17 @@ function AdminLayout() {
         </aside>
 
         <main className="px-4 py-8 lg:px-10">
+          <div
+            role="alert"
+            className="mb-8 border-l-2 border-accent bg-muted px-4 py-3 text-xs leading-relaxed text-foreground"
+          >
+            <p className="eyebrow text-accent">ACESSO RESTRITO AUTORIZADO</p>
+            <p className="mt-2 text-muted-foreground">
+              Estás numa área privada da M-Shop. Todas as alterações a produtos, pedidos e
+              configurações afetam a loja pública de imediato. Não partilhes o endereço desta área
+              nem as tuas credenciais; termina sessão ao sair.
+            </p>
+          </div>
           <Outlet />
         </main>
       </div>
