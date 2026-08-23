@@ -173,6 +173,5 @@ export async function uploadProductImage(file: File) {
     upsert: false,
   });
   if (error) throw error;
-  const { data } = supabase.storage.from("product-images").getPublicUrl(path);
-  return data.publicUrl;
+  return `/api/public/media/${path}`;
 }
