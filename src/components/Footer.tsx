@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Lock } from "lucide-react";
 import { Logo } from "./Logo";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { useCatalog } from "@/lib/catalog-context";
