@@ -139,7 +139,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const catalog = Route.useLoaderData();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isAdminArea = pathname.startsWith("/admin") || pathname.startsWith("/auth");
+  const isAdminArea = pathname.startsWith("/admin") || pathname.startsWith("/console-9f3d2a");
 
   useEffect(() => {
     registerServiceWorker();

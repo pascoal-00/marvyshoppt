@@ -9,12 +9,12 @@ export const Route = createFileRoute("/admin")({
   ssr: false,
   beforeLoad: async () => {
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/auth" });
+    if (error || !data.user) throw redirect({ to: "/console-9f3d2a" });
     const { data: isAdmin } = await supabase.rpc("has_role", {
       _user_id: data.user.id,
       _role: "admin",
     });
-    if (!isAdmin) throw redirect({ to: "/auth" });
+    if (!isAdmin) throw redirect({ to: "/console-9f3d2a" });
     return { user: data.user };
   },
   head: () => ({
@@ -50,7 +50,7 @@ function AdminLayout() {
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
+    navigate({ to: "/console-9f3d2a", replace: true });
   };
 
   const nav = (
@@ -104,6 +104,17 @@ function AdminLayout() {
         </aside>
 
         <main className="px-4 py-8 lg:px-10">
+          <div
+            role="alert"
+            className="mb-8 border-l-2 border-accent bg-muted px-4 py-3 text-xs leading-relaxed text-foreground"
+          >
+            <p className="eyebrow text-accent">ACESSO RESTRITO AUTORIZADO</p>
+            <p className="mt-2 text-muted-foreground">
+              Estás numa área privada da M-Shop. Todas as alterações a produtos, pedidos e
+              configurações afetam a loja pública de imediato. Não partilhes o endereço desta área
+              nem as tuas credenciais; termina sessão ao sair.
+            </p>
+          </div>
           <Outlet />
         </main>
       </div>
