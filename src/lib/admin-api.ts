@@ -3,6 +3,9 @@ import { mapCategory, mapProduct, mapSettings, type Category, type Product, type
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+export type ProductInput = { [K in keyof Product]?: Product[K] | undefined };
+export type CategoryInput = { [K in keyof Category]?: Category[K] | undefined };
+
 export type AdminOrder = {
   id: string;
   orderNumber: string;
@@ -55,7 +58,7 @@ export async function saveSettings(values: StoreSettings) {
   if (error) throw error;
 }
 
-export function productToRow(product: Partial<Product>) {
+export function productToRow(product: ProductInput) {
   return {
     slug: product.slug,
     name: product.name,
@@ -80,7 +83,7 @@ export function productToRow(product: Partial<Product>) {
   };
 }
 
-export async function upsertProduct(product: Partial<Product> & { id?: string | undefined }) {
+export async function upsertProduct(product: ProductInput) {
   const row = productToRow(product);
   if (product.id) {
     const { error } = await supabase.from("products").update(row as any).eq("id", product.id);
@@ -113,7 +116,7 @@ export async function duplicateProduct(product: Product) {
   return upsertProduct(copy);
 }
 
-export async function saveCategory(category: Partial<Category> & { id?: string | undefined }) {
+export async function saveCategory(category: CategoryInput) {
   const row = {
     slug: category.slug,
     label: category.label,
@@ -173,6 +176,5 @@ export async function uploadProductImage(file: File) {
     upsert: false,
   });
   if (error) throw error;
-  const { data } = supabase.storage.from("product-images").getPublicUrl(path);
-  return data.publicUrl;
+  return `/api/public/media/${path}`;
 }
