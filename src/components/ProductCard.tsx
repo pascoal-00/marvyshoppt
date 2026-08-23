@@ -29,8 +29,8 @@ export function ProductCard({ product }: { product: Product }) {
             className="absolute inset-0 h-full w-full scale-105 object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           />
           {product.productType === "replica" && (
-            <span className="absolute bottom-0 left-0 right-0 bg-background/90 px-2 py-1 text-center text-[9px] font-semibold tracking-[0.14em] text-muted-foreground">
-              RÉPLICA/REPRODUÇÃO
+            <span className="absolute bottom-0 left-0 right-0 bg-background/90 px-2 py-1 text-center text-[9px] font-semibold tracking-[0.14em] text-muted-foreground whitespace-pre">
+              {"\n"}
             </span>
           )}
           {product.isNew && (
