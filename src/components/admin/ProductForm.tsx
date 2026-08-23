@@ -89,9 +89,18 @@ export function ProductForm({ product, categories }: { product?: Product; catego
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     const name = draft.name.trim();
-    if (!name) return toast.error("O nome do produto é obrigatório.");
-    if (name.length > 120) return toast.error("O nome deve ter menos de 120 caracteres.");
-    if (draft.price < 0) return toast.error("O preço não pode ser negativo.");
+    if (!name) {
+      toast.error("O nome do produto é obrigatório.");
+      return;
+    }
+    if (name.length > 120) {
+      toast.error("O nome deve ter menos de 120 caracteres.");
+      return;
+    }
+    if (draft.price < 0) {
+      toast.error("O preço não pode ser negativo.");
+      return;
+    }
 
     setSaving(true);
     try {

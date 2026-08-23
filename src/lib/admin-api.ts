@@ -80,7 +80,7 @@ export function productToRow(product: Partial<Product>) {
   };
 }
 
-export async function upsertProduct(product: Partial<Product> & { id?: string }) {
+export async function upsertProduct(product: Partial<Product> & { id?: string | undefined }) {
   const row = productToRow(product);
   if (product.id) {
     const { error } = await supabase.from("products").update(row as any).eq("id", product.id);
@@ -113,7 +113,7 @@ export async function duplicateProduct(product: Product) {
   return upsertProduct(copy);
 }
 
-export async function saveCategory(category: Partial<Category> & { id?: string }) {
+export async function saveCategory(category: Partial<Category> & { id?: string | undefined }) {
   const row = {
     slug: category.slug,
     label: category.label,

@@ -32,6 +32,8 @@ const STEPS = [
 ];
 
 function HowItWorks() {
+  const { settings } = useCatalog();
+  const waUrl = whatsappUrl(settings);
   return (
     <div className="mx-auto max-w-[1100px] px-4 py-14 lg:px-8">
       <h1 className="display text-4xl md:text-6xl">Como funciona</h1>

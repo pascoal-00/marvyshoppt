@@ -4,6 +4,8 @@ import { whatsappUrl } from "@/lib/whatsapp";
 import { useCatalog } from "@/lib/catalog-context";
 
 export function Footer() {
+  const { settings } = useCatalog();
+  const waUrl = whatsappUrl(settings);
   return (
     <footer className="bg-ink text-background">
       <div className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
