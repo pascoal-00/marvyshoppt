@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
+import { whatsappUrl } from "@/lib/whatsapp";
+import { useCatalog } from "@/lib/catalog-context";
 
 export const Route = createFileRoute("/how-it-works")({
   head: () => ({
@@ -31,6 +32,8 @@ const STEPS = [
 ];
 
 function HowItWorks() {
+  const { settings } = useCatalog();
+  const waUrl = whatsappUrl(settings);
   return (
     <div className="mx-auto max-w-[1100px] px-4 py-14 lg:px-8">
       <h1 className="display text-4xl md:text-6xl">Como funciona</h1>
@@ -96,7 +99,7 @@ function HowItWorks() {
       </section>
 
       <a
-        href={WHATSAPP_URL}
+        href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-12 inline-block bg-ink px-8 py-4 text-[11px] font-semibold tracking-[0.2em] text-background transition-colors hover:bg-accent"

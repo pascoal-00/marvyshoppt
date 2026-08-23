@@ -1,8 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
-import { WHATSAPP_URL } from "@/lib/whatsapp";
+import { whatsappUrl } from "@/lib/whatsapp";
+import { useCatalog } from "@/lib/catalog-context";
 
 export function Footer() {
+  const { settings } = useCatalog();
+  const waUrl = whatsappUrl(settings);
   return (
     <footer className="bg-ink text-background">
       <div className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
@@ -31,7 +34,7 @@ export function Footer() {
               <li><Link to="/how-it-works" hash="sobre">Sobre nós</Link></li>
               <li><Link to="/how-it-works">Como funciona</Link></li>
               <li>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Contactos</a>
+                <a href={waUrl} target="_blank" rel="noopener noreferrer">Contactos</a>
               </li>
             </ul>
           </div>
@@ -46,7 +49,7 @@ export function Footer() {
             <h3 className="eyebrow mt-8 text-background/50">Contact</h3>
             <ul className="mt-4 space-y-2 text-sm text-background/80">
               <li>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <a href={waUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>
               </li>
             </ul>
           </div>
