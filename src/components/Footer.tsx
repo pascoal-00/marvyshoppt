@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Lock } from "lucide-react";
 import { Logo } from "./Logo";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { useCatalog } from "@/lib/catalog-context";
@@ -57,8 +58,12 @@ export function Footer() {
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-[11px] tracking-[0.14em] text-background/50">
           <p>© 2026 M-SHOP. TODOS OS DIREITOS RESERVADOS.</p>
-          <Link to="/auth" className="transition-colors hover:text-background">
-            LOGIN ADMIN
+          <Link
+            to="/auth"
+            aria-label="Área restrita"
+            className="text-background/20 transition-colors hover:text-background/80 focus-visible:text-background/80 focus-visible:outline-none"
+          >
+            <Lock className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
           </Link>
         </div>
       </div>
