@@ -1,23 +1,36 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { mapCategory, mapProduct, mapSettings, DEFAULT_SETTINGS, type Catalog } from "./catalog";
+import {
+  mapCategory,
+  mapProduct,
+  mapSettings,
+  mapSiteImage,
+  mapAd,
+  DEFAULT_SETTINGS,
+  type Catalog,
+} from "./catalog";
 
 export const getCatalog = createServerFn({ method: "GET" }).handler(async (): Promise<Catalog> => {
   const { createPublicClient } = await import("./supabase-public.server");
   const supabase = createPublicClient();
-  const [productsRes, categoriesRes, settingsRes] = await Promise.all([
+  const [productsRes, categoriesRes, settingsRes, imagesRes, adsRes] = await Promise.all([
     supabase.from("products").select("*").eq("active", true).order("sort_order", { ascending: true }),
     supabase.from("categories").select("*").eq("active", true).order("sort_order", { ascending: true }),
     supabase.from("store_settings").select("*").limit(1).maybeSingle(),
+    supabase.from("site_images").select("*").eq("active", true).order("sort_order", { ascending: true }),
+    supabase.from("ads").select("*").eq("active", true).order("sort_order", { ascending: true }),
   ]);
 
   return {
     products: (productsRes.data ?? []).map(mapProduct),
     categories: (categoriesRes.data ?? []).map(mapCategory),
     settings: settingsRes.data ? mapSettings(settingsRes.data) : DEFAULT_SETTINGS,
+    siteImages: (imagesRes.data ?? []).map(mapSiteImage),
+    ads: (adsRes.data ?? []).map(mapAd),
   };
 });
+
 
 export const createOrder = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>

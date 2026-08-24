@@ -1,5 +1,17 @@
 import { supabase } from "@/integrations/supabase/client";
-import { mapCategory, mapProduct, mapSettings, type Category, type Product, type StoreSettings } from "./catalog";
+import {
+  mapAd,
+  mapCategory,
+  mapProduct,
+  mapSettings,
+  mapSiteImage,
+  SITE_IMAGE_SLOTS,
+  type Ad,
+  type Category,
+  type Product,
+  type SiteImage,
+  type StoreSettings,
+} from "./catalog";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -177,4 +189,70 @@ export async function uploadProductImage(file: File) {
   });
   if (error) throw error;
   return `/api/public/media/${path}`;
+}
+
+/* ---------- Imagens do site ---------- */
+
+export async function fetchSiteImages(): Promise<SiteImage[]> {
+  const { data, error } = await (supabase as any)
+    .from("site_images")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map(mapSiteImage);
+}
+
+export async function saveSiteImage(slot: string, values: { image: string | null; alt: string; active: boolean }) {
+  const { error } = await (supabase as any)
+    .from("site_images")
+    .upsert(
+      {
+        slot,
+        image_url: values.image,
+        alt: values.alt,
+        active: values.active,
+        sort_order: SITE_IMAGE_SLOTS.findIndex((s) => s.slot === slot),
+      },
+      { onConflict: "slot" },
+    );
+  if (error) throw error;
+}
+
+/* ---------- Publicidade ---------- */
+
+export type AdInput = { [K in keyof Ad]?: Ad[K] | undefined };
+
+export async function fetchAds(): Promise<Ad[]> {
+  const { data, error } = await (supabase as any)
+    .from("ads")
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map(mapAd);
+}
+
+export async function saveAd(ad: AdInput) {
+  const row = {
+    title: ad.title ?? "",
+    subtitle: ad.subtitle ?? "",
+    image_url: ad.image ?? null,
+    link_url: ad.linkUrl ?? null,
+    cta_label: ad.ctaLabel ?? "",
+    placement: ad.placement ?? "home_mid",
+    sort_order: ad.sortOrder ?? 0,
+    active: ad.active ?? true,
+  };
+  if (ad.id) {
+    const { error } = await (supabase as any).from("ads").update(row).eq("id", ad.id);
+    if (error) throw error;
+    return;
+  }
+  const { error } = await (supabase as any).from("ads").insert(row);
+  if (error) throw error;
+}
+
+export async function deleteAd(id: string) {
+  const { error } = await (supabase as any).from("ads").delete().eq("id", id);
+  if (error) throw error;
 }
