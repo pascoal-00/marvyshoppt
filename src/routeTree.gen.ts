@@ -17,6 +17,7 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAdsRouteImport } from './routes/admin.ads'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
@@ -67,6 +68,11 @@ const WishlistRoute = WishlistRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdsRoute = AdminAdsRouteImport.update({
+  id: '/ads',
+  path: '/ads',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/ads': typeof AdminAdsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/ads': typeof AdminAdsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/ads': typeof AdminAdsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/shop'
     | '/wishlist'
+    | '/admin/ads'
     | '/admin/categories'
     | '/admin/media'
     | '/admin/orders'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/shop'
     | '/wishlist'
+    | '/admin/ads'
     | '/admin/categories'
     | '/admin/media'
     | '/admin/orders'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/shop'
     | '/wishlist'
+    | '/admin/ads'
     | '/admin/categories'
     | '/admin/media'
     | '/admin/orders'
@@ -320,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/ads': {
+      id: '/admin/ads'
+      path: '/ads'
+      fullPath: '/admin/ads'
+      preLoaderRoute: typeof AdminAdsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/categories': {
@@ -419,6 +438,7 @@ const AdminProductsRouteWithChildren = AdminProductsRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminAdsRoute: typeof AdminAdsRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
@@ -428,6 +448,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdsRoute: AdminAdsRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminOrdersRoute: AdminOrdersRoute,
