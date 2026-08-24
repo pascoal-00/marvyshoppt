@@ -49,6 +49,8 @@ export type Catalog = {
   products: Product[];
   categories: Category[];
   settings: StoreSettings;
+  siteImages: SiteImage[];
+  ads: Ad[];
 };
 
 export const DEFAULT_SETTINGS: StoreSettings = {
@@ -167,3 +169,73 @@ export function slugify(value: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+/* ---------- Imagens do site e publicidade ---------- */
+
+export type SiteImage = {
+  id: string;
+  slot: string;
+  image: string | null;
+  alt: string;
+  sortOrder: number;
+  active: boolean;
+};
+
+export type Ad = {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string | null;
+  linkUrl: string | null;
+  ctaLabel: string;
+  placement: string;
+  sortOrder: number;
+  active: boolean;
+};
+
+export const SITE_IMAGE_SLOTS: { slot: string; label: string; hint: string }[] = [
+  { slot: "hero", label: "Hero (topo da homepage)", hint: "Imagem grande de abertura" },
+  { slot: "campaign", label: "Campanha em destaque", hint: "Secção 'Destaque' da homepage" },
+  { slot: "edit_1", label: "The M-Shop edit — imagem 1", hint: "Editorial (coluna esquerda)" },
+  { slot: "edit_2", label: "The M-Shop edit — imagem 2", hint: "Editorial (coluna direita)" },
+  { slot: "social_1", label: "Follow the M-Shop — 1", hint: "Galeria social" },
+  { slot: "social_2", label: "Follow the M-Shop — 2", hint: "Galeria social" },
+  { slot: "social_3", label: "Follow the M-Shop — 3", hint: "Galeria social" },
+  { slot: "social_4", label: "Follow the M-Shop — 4", hint: "Galeria social" },
+  { slot: "social_5", label: "Follow the M-Shop — 5", hint: "Galeria social" },
+  { slot: "social_6", label: "Follow the M-Shop — 6", hint: "Galeria social" },
+];
+
+export const AD_PLACEMENTS: { id: string; label: string }[] = [
+  { id: "home_top", label: "Homepage — topo (abaixo do hero)" },
+  { id: "home_mid", label: "Homepage — meio (antes de 'Como funciona')" },
+  { id: "shop_top", label: "Shop — topo da listagem" },
+  { id: "product_bottom", label: "Página de produto — fim" },
+];
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export function mapSiteImage(row: any): SiteImage {
+  return {
+    id: row.id,
+    slot: row.slot,
+    image: row.image_url ?? null,
+    alt: row.alt ?? "",
+    sortOrder: row.sort_order ?? 0,
+    active: row.active !== false,
+  };
+}
+
+export function mapAd(row: any): Ad {
+  return {
+    id: row.id,
+    title: row.title ?? "",
+    subtitle: row.subtitle ?? "",
+    image: row.image_url ?? null,
+    linkUrl: row.link_url ?? null,
+    ctaLabel: row.cta_label ?? "",
+    placement: row.placement ?? "home_mid",
+    sortOrder: row.sort_order ?? 0,
+    active: row.active !== false,
+  };
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
