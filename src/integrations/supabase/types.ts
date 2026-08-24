@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      ads: {
+        Row: {
+          active: boolean
+          created_at: string
+          cta_label: string
+          id: string
+          image_url: string | null
+          link_url: string | null
+          placement: string
+          sort_order: number
+          subtitle: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          cta_label?: string
+          id?: string
+          image_url?: string | null
+          link_url?: string | null
+          placement?: string
+          sort_order?: number
+          subtitle?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          cta_label?: string
+          id?: string
+          image_url?: string | null
+          link_url?: string | null
+          placement?: string
+          sort_order?: number
+          subtitle?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           active: boolean
@@ -205,6 +247,39 @@ export type Database = {
           sort_order?: number
           style?: string
           subcategory?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_images: {
+        Row: {
+          active: boolean
+          alt: string
+          created_at: string
+          id: string
+          image_url: string | null
+          slot: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          alt?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          slot: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          alt?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          slot?: string
+          sort_order?: number
           updated_at?: string
         }
         Relationships: []
