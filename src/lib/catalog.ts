@@ -104,7 +104,35 @@ export function mapProduct(row: any): Product {
     active: row.active !== false,
     sortOrder: row.sort_order ?? 0,
     createdAt: row.created_at ?? new Date().toISOString(),
+    variants: (row.product_variants ?? row.variants ?? []).map(mapVariant),
   };
+}
+
+export function mapVariant(row: any): ProductVariant {
+  return {
+    id: row.id,
+    productId: row.product_id,
+    colorSlug: row.color_slug,
+    colorName: row.color_name,
+    colorHex: row.color_hex ?? "#000000",
+    images: row.images ?? [],
+    sku: row.sku ?? "",
+    stock: row.stock ?? 0,
+    sortOrder: row.sort_order ?? 0,
+    active: row.active !== false,
+  };
+}
+
+/** Imagens a mostrar para um produto, tendo em conta a variante escolhida. */
+export function variantImages(product: Product, variant?: ProductVariant | null) {
+  const imgs = variant?.images?.length ? variant.images : product.images;
+  return imgs.length ? imgs : product.images;
+}
+
+export function findVariant(product: Product, colorSlug?: string | null) {
+  const active = product.variants.filter((v) => v.active);
+  if (!active.length) return null;
+  return active.find((v) => v.colorSlug === colorSlug) ?? active[0] ?? null;
 }
 
 export function mapCategory(row: any): Category {
