@@ -1,6 +1,19 @@
 export type Availability = "in_stock" | "low_stock" | "unknown";
 export type ProductType = "original" | "replica" | "unbranded";
 
+export type ProductVariant = {
+  id: string;
+  productId: string;
+  colorSlug: string;
+  colorName: string;
+  colorHex: string;
+  images: string[];
+  sku: string;
+  stock: number;
+  sortOrder: number;
+  active: boolean;
+};
+
 export type Product = {
   id: string;
   slug: string;
