@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCatalog } from "@/lib/catalog-context";
 import { ProductGrid } from "@/components/ProductCard";
+import { AdSlot } from "@/components/AdSlot";
 
 type ShopSearch = { q?: string | undefined };
 
@@ -136,6 +137,8 @@ function ShopPage() {
 
       <h1 className="display mt-6 text-4xl md:text-6xl">Shop</h1>
       <p className="mt-3 text-sm text-muted-foreground">Explora a seleção M-Shop.</p>
+
+      <AdSlot placement="shop_top" className="mt-8" />
 
       <div className="mt-8 grid gap-4 border-y border-border py-4 md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-center">
         <input

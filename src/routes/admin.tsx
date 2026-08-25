@@ -34,6 +34,8 @@ const NAV = [
   { to: "/admin", label: "Dashboard", exact: true },
   { to: "/admin/products", label: "Produtos" },
   { to: "/admin/categories", label: "Categorias" },
+  { to: "/admin/media", label: "Imagens do site" },
+  { to: "/admin/ads", label: "Publicidade" },
   { to: "/admin/orders", label: "Pedidos" },
   { to: "/admin/settings", label: "Configurações" },
 ] as const;

@@ -6,6 +6,7 @@ import { useCatalog } from "@/lib/catalog-context";
 import { getProductMeta } from "@/lib/catalog.functions";
 import { useStore } from "@/lib/store";
 import { ProductCard } from "@/components/ProductCard";
+import { AdSlot } from "@/components/AdSlot";
 
 export const Route = createFileRoute("/product/$slug")({
   loader: async ({ params }) => {
@@ -230,6 +231,8 @@ function ProductPage() {
           </div>
         </section>
       )}
+
+      <AdSlot placement="product_bottom" className="mt-16" />
 
       <div className="sticky bottom-0 z-40 -mx-4 mt-12 border-t border-border bg-background px-4 py-3 lg:hidden">
         <button
