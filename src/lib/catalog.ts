@@ -37,6 +37,7 @@ export type Product = {
   active: boolean;
   sortOrder: number;
   createdAt: string;
+  variants: ProductVariant[];
 };
 
 export type Category = {
