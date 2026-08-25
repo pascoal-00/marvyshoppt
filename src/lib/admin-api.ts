@@ -32,7 +32,7 @@ export type AdminOrder = {
 export async function fetchAdminProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("products")
-    .select("*")
+    .select("*, product_variants(*)")
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false });
   if (error) throw error;

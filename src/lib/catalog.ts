@@ -104,7 +104,9 @@ export function mapProduct(row: any): Product {
     active: row.active !== false,
     sortOrder: row.sort_order ?? 0,
     createdAt: row.created_at ?? new Date().toISOString(),
-    variants: (row.product_variants ?? row.variants ?? []).map(mapVariant),
+    variants: ((row.product_variants ?? row.variants ?? []) as any[])
+      .map(mapVariant)
+      .sort((a, b) => a.sortOrder - b.sortOrder),
   };
 }
 
