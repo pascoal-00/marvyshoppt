@@ -173,6 +173,59 @@ export type Database = {
         }
         Relationships: []
       }
+      product_variants: {
+        Row: {
+          active: boolean
+          color_hex: string
+          color_name: string
+          color_slug: string
+          created_at: string
+          id: string
+          images: string[]
+          product_id: string
+          sku: string
+          sort_order: number
+          stock: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          color_hex?: string
+          color_name: string
+          color_slug: string
+          created_at?: string
+          id?: string
+          images?: string[]
+          product_id: string
+          sku?: string
+          sort_order?: number
+          stock?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          color_hex?: string
+          color_name?: string
+          color_slug?: string
+          created_at?: string
+          id?: string
+          images?: string[]
+          product_id?: string
+          sku?: string
+          sort_order?: number
+          stock?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           active: boolean

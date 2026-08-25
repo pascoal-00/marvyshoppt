@@ -15,7 +15,11 @@ export const getCatalog = createServerFn({ method: "GET" }).handler(async (): Pr
   const { createPublicClient } = await import("./supabase-public.server");
   const supabase = createPublicClient();
   const [productsRes, categoriesRes, settingsRes, imagesRes, adsRes] = await Promise.all([
-    supabase.from("products").select("*").eq("active", true).order("sort_order", { ascending: true }),
+    supabase
+      .from("products")
+      .select("*, product_variants(*)")
+      .eq("active", true)
+      .order("sort_order", { ascending: true }),
     supabase.from("categories").select("*").eq("active", true).order("sort_order", { ascending: true }),
     supabase.from("store_settings").select("*").limit(1).maybeSingle(),
     supabase.from("site_images").select("*").eq("active", true).order("sort_order", { ascending: true }),
