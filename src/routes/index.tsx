@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { styles } from "@/lib/catalog";
-import { useCatalog } from "@/lib/catalog-context";
+import { useCatalog, useSiteImage } from "@/lib/catalog-context";
+import { AdSlot } from "@/components/AdSlot";
 import { ProductCard } from "@/components/ProductCard";
 import hero from "@/assets/hero.jpg";
 import edit1 from "@/assets/edit1.jpg";
@@ -40,6 +41,19 @@ const STEPS = [
 
 function Home() {
   const { products, categories, settings } = useCatalog();
+  const heroImg = useSiteImage("hero", hero, "Editorial M-Shop: streetwear e sneakers");
+  const campaignImg = useSiteImage("campaign", campaign.url, "M-SHOP STREET 03");
+  const editImg1 = useSiteImage("edit_1", edit1, "Editorial M-Shop");
+  const editImg2 = useSiteImage("edit_2", edit2, "Editorial M-Shop");
+  const socialFallback = [edit1, edit2, catAcc, edit2, edit1, catAcc];
+  const socialImgs = [
+    useSiteImage("social_1", socialFallback[0]!, ""),
+    useSiteImage("social_2", socialFallback[1]!, ""),
+    useSiteImage("social_3", socialFallback[2]!, ""),
+    useSiteImage("social_4", socialFallback[3]!, ""),
+    useSiteImage("social_5", socialFallback[4]!, ""),
+    useSiteImage("social_6", socialFallback[5]!, ""),
+  ];
   const newIn = products.filter((p) => p.isNew).slice(0, 4);
   const TRUST = [
     { t: "ENVIO PARA PORTUGAL", d: settings.shippingFrom },
@@ -53,8 +67,8 @@ function Home() {
       {/* HERO */}
       <section className="relative bg-ink text-background">
         <img
-          src={hero}
-          alt="Editorial M-Shop: streetwear e sneakers"
+          src={heroImg.src}
+          alt={heroImg.alt}
           width={1600}
           height={1104}
           className="h-[62vh] min-h-[420px] w-full object-cover opacity-80 md:h-[78vh]"
@@ -103,6 +117,8 @@ function Home() {
         </div>
       </section>
 
+      <AdSlot placement="home_top" />
+
       {/* CATEGORIES */}
       <section className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
         <h2 className="display text-3xl md:text-4xl">Shop by category</h2>
@@ -149,8 +165,8 @@ function Home() {
       <section className="bg-ink text-background">
         <div className="mx-auto grid max-w-[1400px] items-stretch gap-0 lg:grid-cols-[1.2fr_1fr]">
           <img
-            src={campaign.url}
-            alt="M-SHOP STREET 03"
+            src={campaignImg.src}
+            alt={campaignImg.alt}
             loading="lazy"
             className="h-full max-h-[560px] w-full object-cover"
           />
@@ -187,6 +203,8 @@ function Home() {
         </div>
       </section>
 
+      <AdSlot placement="home_mid" />
+
       {/* COMO FUNCIONA */}
       <section className="bg-surface">
         <div className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
@@ -211,9 +229,9 @@ function Home() {
       <section className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
         <h2 className="display text-3xl md:text-4xl">The M-Shop edit</h2>
         <div className="mt-8 grid gap-3 md:grid-cols-[1fr_1.4fr]">
-          <img src={edit1} alt="Editorial M-Shop" loading="lazy" className="h-full w-full object-cover" />
+          <img src={editImg1.src} alt={editImg1.alt} loading="lazy" className="h-full w-full object-cover" />
           <div className="grid gap-3">
-            <img src={edit2} alt="Editorial M-Shop" loading="lazy" className="h-full w-full object-cover" />
+            <img src={editImg2.src} alt={editImg2.alt} loading="lazy" className="h-full w-full object-cover" />
             <div className="flex items-center justify-between gap-4 bg-ink px-6 py-8 text-background">
               <p className="display text-2xl">Move different.</p>
               <Link to="/shop" className="eyebrow shrink-0 border-b border-background pb-1">
@@ -242,8 +260,8 @@ function Home() {
           <span className="text-sm text-muted-foreground">@M-SHOP</span>
         </div>
         <div className="mt-6 grid grid-cols-3 gap-3 md:grid-cols-6">
-          {[edit1, edit2, catAcc, edit2, edit1, catAcc].map((src, i) => (
-            <img key={i} src={src} alt="" loading="lazy" className="aspect-square w-full object-cover grayscale transition-all duration-500 hover:grayscale-0" />
+          {socialImgs.map((img, i) => (
+            <img key={i} src={img.src} alt={img.alt} loading="lazy" className="aspect-square w-full object-cover grayscale transition-all duration-500 hover:grayscale-0" />
           ))}
         </div>
       </section>
