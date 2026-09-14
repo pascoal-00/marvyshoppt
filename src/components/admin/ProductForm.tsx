@@ -105,6 +105,51 @@ export function ProductForm({ product, categories }: { product?: Product; catego
     }
   };
 
+  const setVariant = (index: number, patch: Partial<VariantDraft>) =>
+    setVariants((list) => list.map((v, i) => (i === index ? { ...v, ...patch } : v)));
+
+  const addVariant = () =>
+    setVariants((list) => [
+      ...list,
+      {
+        colorSlug: "",
+        colorName: "",
+        colorHex: "#000000",
+        images: [],
+        sku: "",
+        stock: 0,
+        sortOrder: list.length,
+        active: true,
+      },
+    ]);
+
+  const removeVariant = (index: number) => setVariants((list) => list.filter((_, i) => i !== index));
+
+  const onVariantUpload = async (index: number, files: FileList | null) => {
+    if (!files?.length) return;
+    setUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const file of Array.from(files)) {
+        if (file.size > 8 * 1024 * 1024) {
+          toast.error(`${file.name} excede 8 MB.`);
+          continue;
+        }
+        urls.push(await uploadProductImage(file));
+      }
+      if (urls.length) {
+        setVariants((list) =>
+          list.map((v, i) => (i === index ? { ...v, images: [...v.images, ...urls] } : v)),
+        );
+        toast.success("Imagens carregadas.");
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Falha ao carregar imagens.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     const name = draft.name.trim();
