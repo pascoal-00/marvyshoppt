@@ -74,7 +74,7 @@ function ProductPage() {
       return;
     }
     setError(null);
-    addItem(product, size, qty);
+    addItem(product, size, qty, variant?.colorName ?? null);
   };
 
   return (
