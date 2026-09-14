@@ -89,8 +89,8 @@ function ProductPage() {
         <div>
           <div className="bg-surface">
             <img
-              src={product.images[activeImage]}
-              alt={product.name}
+              src={images[activeImage] ?? images[0]}
+              alt={variant ? `${product.name} — ${variant.colorName}` : product.name}
               width={1008}
               height={1008}
               className="aspect-square w-full object-cover"
