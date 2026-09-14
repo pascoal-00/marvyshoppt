@@ -291,6 +291,136 @@ export function ProductForm({ product, categories }: { product?: Product; catego
             </p>
           )}
         </section>
+
+        <section className="border border-border p-5">
+          <h2 className="eyebrow">Cores disponíveis</h2>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Cada cor tem as suas próprias fotos, SKU e stock. Descrição, marca, tamanhos e preço vêm do produto.
+          </p>
+
+          <ul className="mt-5 space-y-5">
+            {variants.map((variant, index) => (
+              <li key={variant.id ?? `new-${index}`} className="border border-border p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] tracking-[0.14em] text-muted-foreground">COR #{index + 1}</span>
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center gap-2 text-xs">
+                      <input
+                        type="checkbox"
+                        checked={variant.active}
+                        onChange={(e) => setVariant(index, { active: e.target.checked })}
+                        className="h-4 w-4 accent-[color:var(--color-accent)]"
+                      />
+                      Visível
+                    </label>
+                    <button type="button" aria-label="Remover cor" onClick={() => removeVariant(index)}>
+                      <Trash2 className="h-4 w-4 text-accent" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Nome da cor
+                    <input
+                      className={field}
+                      value={variant.colorName}
+                      maxLength={60}
+                      placeholder="Preta"
+                      onChange={(e) => setVariant(index, { colorName: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Identificador no link (?cor=)
+                    <input
+                      className={field}
+                      value={variant.colorSlug}
+                      maxLength={60}
+                      placeholder="gerado a partir do nome"
+                      onChange={(e) => setVariant(index, { colorSlug: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Cor da bolinha
+                    <input
+                      type="color"
+                      className="mt-2 h-10 w-full border border-border bg-background"
+                      value={variant.colorHex}
+                      onChange={(e) => setVariant(index, { colorHex: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    SKU
+                    <input
+                      className={field}
+                      value={variant.sku}
+                      maxLength={60}
+                      onChange={(e) => setVariant(index, { sku: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Stock
+                    <input
+                      type="number"
+                      min="0"
+                      className={field}
+                      value={variant.stock}
+                      onChange={(e) => setVariant(index, { stock: Number(e.target.value) })}
+                    />
+                  </label>
+                </div>
+
+                <p className="mt-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">Fotos desta cor</p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  disabled={uploading}
+                  onChange={(e) => onVariantUpload(index, e.target.files)}
+                  className="mt-2 block w-full text-sm"
+                />
+                <input
+                  className={field}
+                  placeholder="Ou colar URL de imagem e premir Enter"
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    const value = e.currentTarget.value.trim();
+                    if (!value) return;
+                    setVariant(index, { images: [...variant.images, value] });
+                    e.currentTarget.value = "";
+                  }}
+                />
+                {variant.images.length > 0 && (
+                  <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
+                    {variant.images.map((url, imgIndex) => (
+                      <li key={`${url}-${imgIndex}`} className="border border-border">
+                        <img src={url} alt="" loading="lazy" className="aspect-square w-full object-cover" />
+                        <button
+                          type="button"
+                          className="w-full py-1 text-[10px] tracking-[0.12em] text-accent"
+                          onClick={() =>
+                            setVariant(index, { images: variant.images.filter((_, i) => i !== imgIndex) })
+                          }
+                        >
+                          REMOVER
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <button
+            type="button"
+            onClick={addVariant}
+            className="mt-5 border border-border px-4 py-2 text-[11px] font-semibold tracking-[0.16em]"
+          >
+            ADICIONAR COR
+          </button>
+        </section>
       </div>
 
       <aside className="space-y-6">
