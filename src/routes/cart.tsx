@@ -67,7 +67,9 @@ function CartPage() {
                         <h2 className="truncate text-sm font-semibold">
                           <Link to="/product/$slug" params={{ slug: p.slug }}>{p.name}</Link>
                         </h2>
-                        <p className="mt-1 text-xs text-muted-foreground">Tamanho: {item.size}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Tamanho: {item.size}{item.color ? ` · Cor: ${item.color}` : ""}
+                        </p>
                         <p className="mt-1 text-xs text-muted-foreground">
                           Preço unitário: {formatPrice(p.price, p.currency)}
                         </p>

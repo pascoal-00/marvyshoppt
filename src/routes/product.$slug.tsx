@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
-import { availabilityLabel, formatPrice } from "@/lib/catalog";
+import { availabilityLabel, formatPrice, findVariant, variantImages } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-context";
 import { getProductMeta } from "@/lib/catalog.functions";
 import { useStore } from "@/lib/store";
@@ -9,6 +9,9 @@ import { ProductCard } from "@/components/ProductCard";
 import { AdSlot } from "@/components/AdSlot";
 
 export const Route = createFileRoute("/product/$slug")({
+  validateSearch: (search: Record<string, unknown>): { cor?: string | undefined } => ({
+    cor: typeof search["cor"] === "string" ? (search["cor"] as string) : undefined,
+  }),
   loader: async ({ params }) => {
     const product = await getProductMeta({ data: { slug: params.slug } });
     if (!product) throw notFound();
@@ -49,6 +52,20 @@ function ProductPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeImage, setActiveImage] = useState(0);
 
+  const { cor } = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const activeVariants = product.variants.filter((v) => v.active);
+  const variant = findVariant(product, cor);
+  const images = variantImages(product, variant);
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [variant?.id]);
+
+  const selectColor = (colorSlug: string) => {
+    navigate({ to: ".", search: (prev) => ({ ...prev, cor: colorSlug }), replace: true });
+  };
+
   const related = products.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
 
   const handleAdd = () => {
@@ -57,7 +74,7 @@ function ProductPage() {
       return;
     }
     setError(null);
-    addItem(product, size, qty);
+    addItem(product, size, qty, variant?.colorName ?? null);
   };
 
   return (
@@ -72,15 +89,15 @@ function ProductPage() {
         <div>
           <div className="bg-surface">
             <img
-              src={product.images[activeImage]}
-              alt={product.name}
+              src={images[activeImage] ?? images[0]}
+              alt={variant ? `${product.name} — ${variant.colorName}` : product.name}
               width={1008}
               height={1008}
               className="aspect-square w-full object-cover"
             />
           </div>
           <div className="mt-3 flex gap-3">
-            {product.images.map((img, i) => (
+            {images.map((img, i) => (
               <button
                 key={img}
                 type="button"
@@ -114,6 +131,43 @@ function ProductPage() {
           <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
             {availabilityLabel[product.availability]}
           </p>
+          {activeVariants.length > 0 && (
+            <div className="mt-6">
+              <div className="flex items-center justify-between">
+                <h2 className="eyebrow">Cor</h2>
+                <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  {variant?.colorName}
+                  {variant?.sku ? ` · ${variant.sku}` : ""}
+                </span>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-3">
+                {activeVariants.map((v) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => selectColor(v.colorSlug)}
+                    aria-pressed={v.id === variant?.id}
+                    aria-label={`Cor ${v.colorName}`}
+                    title={v.colorName}
+                    className={`h-9 w-9 rounded-full border-2 ${
+                      v.id === variant?.id ? "border-ink" : "border-border"
+                    }`}
+                  >
+                    <span
+                      className="block h-full w-full rounded-full border border-black/10"
+                      style={{ backgroundColor: v.colorHex }}
+                    />
+                  </button>
+                ))}
+              </div>
+              {variant && variant.stock <= 0 && (
+                <p className="mt-2 text-[11px] uppercase tracking-[0.14em] text-accent">
+                  Esta cor está sem stock — confirmamos disponibilidade por WhatsApp.
+                </p>
+              )}
+            </div>
+          )}
+
           <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
             {product.description}
           </p>

@@ -15,9 +15,9 @@ import {
   type Product,
   type ProductType,
 } from "@/lib/catalog";
-import { upsertProduct, uploadProductImage } from "@/lib/admin-api";
+import { upsertProduct, uploadProductImage, saveProductVariants, type VariantDraft } from "@/lib/admin-api";
 
-type Draft = Omit<Product, "id" | "createdAt"> & { id?: string };
+type Draft = Omit<Product, "id" | "createdAt" | "variants"> & { id?: string };
 
 const emptyDraft: Draft = {
   slug: "",
@@ -47,7 +47,26 @@ const field = "mt-2 w-full border border-border bg-background px-3 py-2 text-sm 
 export function ProductForm({ product, categories }: { product?: Product; categories: Category[] }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [draft, setDraft] = useState<Draft>(product ? { ...product } : emptyDraft);
+  const [draft, setDraft] = useState<Draft>(() => {
+    if (!product) return emptyDraft;
+    const { id, createdAt, variants, ...rest } = product;
+    void createdAt;
+    void variants;
+    return { ...rest, id };
+  });
+  const [variants, setVariants] = useState<VariantDraft[]>(() =>
+    (product?.variants ?? []).map((v) => ({
+      id: v.id,
+      colorSlug: v.colorSlug,
+      colorName: v.colorName,
+      colorHex: v.colorHex,
+      images: v.images,
+      sku: v.sku,
+      stock: v.stock,
+      sortOrder: v.sortOrder,
+      active: v.active,
+    })),
+  );
   const [customSize, setCustomSize] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -86,6 +105,51 @@ export function ProductForm({ product, categories }: { product?: Product; catego
     }
   };
 
+  const setVariant = (index: number, patch: Partial<VariantDraft>) =>
+    setVariants((list) => list.map((v, i) => (i === index ? { ...v, ...patch } : v)));
+
+  const addVariant = () =>
+    setVariants((list) => [
+      ...list,
+      {
+        colorSlug: "",
+        colorName: "",
+        colorHex: "#000000",
+        images: [],
+        sku: "",
+        stock: 0,
+        sortOrder: list.length,
+        active: true,
+      },
+    ]);
+
+  const removeVariant = (index: number) => setVariants((list) => list.filter((_, i) => i !== index));
+
+  const onVariantUpload = async (index: number, files: FileList | null) => {
+    if (!files?.length) return;
+    setUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const file of Array.from(files)) {
+        if (file.size > 8 * 1024 * 1024) {
+          toast.error(`${file.name} excede 8 MB.`);
+          continue;
+        }
+        urls.push(await uploadProductImage(file));
+      }
+      if (urls.length) {
+        setVariants((list) =>
+          list.map((v, i) => (i === index ? { ...v, images: [...v.images, ...urls] } : v)),
+        );
+        toast.success("Imagens carregadas.");
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Falha ao carregar imagens.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     const name = draft.name.trim();
@@ -102,14 +166,27 @@ export function ProductForm({ product, categories }: { product?: Product; catego
       return;
     }
 
+    const cleanVariants = variants
+      .map((v) => ({
+        ...v,
+        colorName: v.colorName.trim(),
+        colorSlug: (v.colorSlug.trim() ? slugify(v.colorSlug) : slugify(v.colorName)) || "",
+      }))
+      .filter((v) => v.colorName && v.colorSlug);
+    if (new Set(cleanVariants.map((v) => v.colorSlug)).size !== cleanVariants.length) {
+      toast.error("Há cores com o mesmo identificador de URL.");
+      return;
+    }
+
     setSaving(true);
     try {
-      await upsertProduct({
+      const productId = await upsertProduct({
         ...draft,
         name,
         slug: draft.slug.trim() ? slugify(draft.slug) : slugify(name),
         onSale: draft.compareAtPrice != null && draft.compareAtPrice > draft.price,
       });
+      await saveProductVariants(productId, cleanVariants);
       await queryClient.invalidateQueries();
       toast.success(product ? "Produto atualizado." : "Produto criado.");
       navigate({ to: "/admin/products" });
@@ -258,6 +335,136 @@ export function ProductForm({ product, categories }: { product?: Product; catego
               Sem tamanhos selecionados: a loja mostra "DISPONIBILIDADE A CONFIRMAR".
             </p>
           )}
+        </section>
+
+        <section className="border border-border p-5">
+          <h2 className="eyebrow">Cores disponíveis</h2>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Cada cor tem as suas próprias fotos, SKU e stock. Descrição, marca, tamanhos e preço vêm do produto.
+          </p>
+
+          <ul className="mt-5 space-y-5">
+            {variants.map((variant, index) => (
+              <li key={variant.id ?? `new-${index}`} className="border border-border p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] tracking-[0.14em] text-muted-foreground">COR #{index + 1}</span>
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center gap-2 text-xs">
+                      <input
+                        type="checkbox"
+                        checked={variant.active}
+                        onChange={(e) => setVariant(index, { active: e.target.checked })}
+                        className="h-4 w-4 accent-[color:var(--color-accent)]"
+                      />
+                      Visível
+                    </label>
+                    <button type="button" aria-label="Remover cor" onClick={() => removeVariant(index)}>
+                      <Trash2 className="h-4 w-4 text-accent" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Nome da cor
+                    <input
+                      className={field}
+                      value={variant.colorName}
+                      maxLength={60}
+                      placeholder="Preta"
+                      onChange={(e) => setVariant(index, { colorName: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Identificador no link (?cor=)
+                    <input
+                      className={field}
+                      value={variant.colorSlug}
+                      maxLength={60}
+                      placeholder="gerado a partir do nome"
+                      onChange={(e) => setVariant(index, { colorSlug: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Cor da bolinha
+                    <input
+                      type="color"
+                      className="mt-2 h-10 w-full border border-border bg-background"
+                      value={variant.colorHex}
+                      onChange={(e) => setVariant(index, { colorHex: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    SKU
+                    <input
+                      className={field}
+                      value={variant.sku}
+                      maxLength={60}
+                      onChange={(e) => setVariant(index, { sku: e.target.value })}
+                    />
+                  </label>
+                  <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                    Stock
+                    <input
+                      type="number"
+                      min="0"
+                      className={field}
+                      value={variant.stock}
+                      onChange={(e) => setVariant(index, { stock: Number(e.target.value) })}
+                    />
+                  </label>
+                </div>
+
+                <p className="mt-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">Fotos desta cor</p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  disabled={uploading}
+                  onChange={(e) => onVariantUpload(index, e.target.files)}
+                  className="mt-2 block w-full text-sm"
+                />
+                <input
+                  className={field}
+                  placeholder="Ou colar URL de imagem e premir Enter"
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    const value = e.currentTarget.value.trim();
+                    if (!value) return;
+                    setVariant(index, { images: [...variant.images, value] });
+                    e.currentTarget.value = "";
+                  }}
+                />
+                {variant.images.length > 0 && (
+                  <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
+                    {variant.images.map((url, imgIndex) => (
+                      <li key={`${url}-${imgIndex}`} className="border border-border">
+                        <img src={url} alt="" loading="lazy" className="aspect-square w-full object-cover" />
+                        <button
+                          type="button"
+                          className="w-full py-1 text-[10px] tracking-[0.12em] text-accent"
+                          onClick={() =>
+                            setVariant(index, { images: variant.images.filter((_, i) => i !== imgIndex) })
+                          }
+                        >
+                          REMOVER
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <button
+            type="button"
+            onClick={addVariant}
+            className="mt-5 border border-border px-4 py-2 text-[11px] font-semibold tracking-[0.16em]"
+          >
+            ADICIONAR COR
+          </button>
         </section>
       </div>
 

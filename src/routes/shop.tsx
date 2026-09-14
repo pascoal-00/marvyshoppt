@@ -49,19 +49,32 @@ function ShopPage() {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const results = useMemo(() => {
+    const query = term.trim().toLowerCase();
     let list = products.filter((p) => {
       if (category !== "all" && p.category !== category) return false;
       if (p.price > maxPrice) return false;
       if (size && !p.sizes.includes(size)) return false;
       if (onlyAvailable && p.availability === "unknown") return false;
-      if (term.trim() && !p.name.toLowerCase().includes(term.trim().toLowerCase())) return false;
+      if (query) {
+        const nameMatch = p.name.toLowerCase().includes(query);
+        const colorMatch = p.variants.some(
+          (v) => v.active && `${p.name} ${v.colorName}`.toLowerCase().includes(query),
+        );
+        if (!nameMatch && !colorMatch) return false;
+      }
       return true;
     });
     list = [...list];
     if (sort === "newest") list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     if (sort === "price-asc") list.sort((a, b) => a.price - b.price);
     if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
-    return list;
+
+    return list.map((p) => {
+      const matched = query
+        ? p.variants.find((v) => v.active && `${p.name} ${v.colorName}`.toLowerCase().includes(query))
+        : undefined;
+      return { product: p, variant: matched ?? null };
+    });
   }, [products, category, maxPrice, size, onlyAvailable, term, sort]);
 
   const filters = (

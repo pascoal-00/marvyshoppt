@@ -18,7 +18,7 @@ export function buildOrderMessage(
     return [
       [
         `• ${p.name}`,
-        `Tamanho: ${item.size}`,
+        `Tamanho: ${item.size}${item.color ? ` | Cor: ${item.color}` : ""}`,
         `Quantidade: ${item.quantity}`,
         `Preço: ${formatPrice(p.price, p.currency)}`,
       ].join("\n"),

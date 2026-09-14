@@ -256,3 +256,54 @@ export async function deleteAd(id: string) {
   const { error } = await (supabase as any).from("ads").delete().eq("id", id);
   if (error) throw error;
 }
+
+/* ---------- Variantes de cor ---------- */
+
+export type VariantDraft = {
+  id?: string;
+  colorSlug: string;
+  colorName: string;
+  colorHex: string;
+  images: string[];
+  sku: string;
+  stock: number;
+  sortOrder: number;
+  active: boolean;
+};
+
+export async function saveProductVariants(productId: string, variants: VariantDraft[]) {
+  const client = supabase as any;
+  const { data: existing, error: readError } = await client
+    .from("product_variants")
+    .select("id")
+    .eq("product_id", productId);
+  if (readError) throw readError;
+
+  const keep = new Set(variants.map((v) => v.id).filter(Boolean));
+  const toDelete = (existing ?? []).map((r: any) => r.id).filter((id: string) => !keep.has(id));
+  if (toDelete.length) {
+    const { error } = await client.from("product_variants").delete().in("id", toDelete);
+    if (error) throw error;
+  }
+
+  for (const [index, variant] of variants.entries()) {
+    const row = {
+      product_id: productId,
+      color_slug: variant.colorSlug,
+      color_name: variant.colorName,
+      color_hex: variant.colorHex || "#000000",
+      images: variant.images,
+      sku: variant.sku,
+      stock: variant.stock,
+      sort_order: index,
+      active: variant.active,
+    };
+    if (variant.id) {
+      const { error } = await client.from("product_variants").update(row).eq("id", variant.id);
+      if (error) throw error;
+    } else {
+      const { error } = await client.from("product_variants").insert(row);
+      if (error) throw error;
+    }
+  }
+}

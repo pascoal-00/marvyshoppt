@@ -64,7 +64,9 @@ export function CartDrawer() {
                           Remover
                         </button>
                       </div>
-                      <p className="mt-1 text-xs text-muted-foreground">Tamanho: {item.size}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Tamanho: {item.size}{item.color ? ` · Cor: ${item.color}` : ""}
+                      </p>
                       <div className="mt-3 flex items-center justify-between gap-3">
                         <div className="flex items-center border border-border">
                           <button
