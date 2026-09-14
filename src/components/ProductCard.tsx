@@ -1,28 +1,32 @@
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
-import { availabilityLabel, formatPrice, type Product } from "@/lib/catalog";
+import { availabilityLabel, formatPrice, variantImages, type Product, type ProductVariant } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product, variant }: { product: Product; variant?: ProductVariant | null }) {
   const { toggleWishlist, isWished, addItem } = useStore();
   const wished = isWished(product.id);
+  const images = variantImages(product, variant);
+  const search = variant ? { cor: variant.colorSlug } : {};
+  const title = variant ? `${product.name} — ${variant.colorName}` : product.name;
 
   return (
     <article className="group relative">
       <Link
         to="/product/$slug"
         params={{ slug: product.slug }}
+        search={search}
         className="block overflow-hidden bg-surface"
       >
         <div className="relative aspect-square">
           <img
-            src={product.images[0]}
-            alt={product.name}
+            src={images[0]}
+            alt={title}
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 group-hover:opacity-0"
           />
           <img
-            src={product.images[1] ?? product.images[0]}
+            src={images[1] ?? images[0]}
             alt=""
             aria-hidden="true"
             loading="lazy"
@@ -54,8 +58,8 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="mt-3 flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="truncate text-sm font-semibold tracking-tight">
-            <Link to="/product/$slug" params={{ slug: product.slug }}>
-              {product.name}
+            <Link to="/product/$slug" params={{ slug: product.slug }} search={search}>
+              {title}
             </Link>
           </h3>
           <p className="mt-1 flex items-baseline gap-2 text-sm">
@@ -76,7 +80,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       <button
         type="button"
-        onClick={() => addItem(product, product.sizes[0] ?? "")}
+        onClick={() => addItem(product, product.sizes[0] ?? "", 1, variant?.colorName ?? null)}
         className="mt-3 w-full border border-ink px-3 py-2 text-[11px] font-semibold tracking-[0.18em] transition-colors hover:bg-ink hover:text-background"
       >
         ADICIONAR
@@ -85,7 +89,9 @@ export function ProductCard({ product }: { product: Product }) {
   );
 }
 
-export function ProductGrid({ items }: { items: Product[] }) {
+export type GridItem = { product: Product; variant?: ProductVariant | null };
+
+export function ProductGrid({ items }: { items: (Product | GridItem)[] }) {
   if (items.length === 0) {
     return (
       <div className="border border-border py-20 text-center">
@@ -98,9 +104,16 @@ export function ProductGrid({ items }: { items: Product[] }) {
   }
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
-      {items.map((p) => (
-        <ProductCard key={p.id} product={p} />
-      ))}
+      {items.map((item) => {
+        const entry = "product" in item ? item : { product: item, variant: null };
+        return (
+          <ProductCard
+            key={`${entry.product.id}-${entry.variant?.id ?? "base"}`}
+            product={entry.product}
+            variant={entry.variant ?? null}
+          />
+        );
+      })}
     </div>
   );
 }
