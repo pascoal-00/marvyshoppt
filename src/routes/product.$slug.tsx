@@ -131,6 +131,43 @@ function ProductPage() {
           <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
             {availabilityLabel[product.availability]}
           </p>
+          {activeVariants.length > 0 && (
+            <div className="mt-6">
+              <div className="flex items-center justify-between">
+                <h2 className="eyebrow">Cor</h2>
+                <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  {variant?.colorName}
+                  {variant?.sku ? ` · ${variant.sku}` : ""}
+                </span>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-3">
+                {activeVariants.map((v) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => selectColor(v.colorSlug)}
+                    aria-pressed={v.id === variant?.id}
+                    aria-label={`Cor ${v.colorName}`}
+                    title={v.colorName}
+                    className={`h-9 w-9 rounded-full border-2 ${
+                      v.id === variant?.id ? "border-ink" : "border-border"
+                    }`}
+                  >
+                    <span
+                      className="block h-full w-full rounded-full border border-black/10"
+                      style={{ backgroundColor: v.colorHex }}
+                    />
+                  </button>
+                ))}
+              </div>
+              {variant && variant.stock <= 0 && (
+                <p className="mt-2 text-[11px] uppercase tracking-[0.14em] text-accent">
+                  Esta cor está sem stock — confirmamos disponibilidade por WhatsApp.
+                </p>
+              )}
+            </div>
+          )}
+
           <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
             {product.description}
           </p>
