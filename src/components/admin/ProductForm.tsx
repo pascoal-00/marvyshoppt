@@ -121,14 +121,27 @@ export function ProductForm({ product, categories }: { product?: Product; catego
       return;
     }
 
+    const cleanVariants = variants
+      .map((v) => ({
+        ...v,
+        colorName: v.colorName.trim(),
+        colorSlug: (v.colorSlug.trim() ? slugify(v.colorSlug) : slugify(v.colorName)) || "",
+      }))
+      .filter((v) => v.colorName && v.colorSlug);
+    if (new Set(cleanVariants.map((v) => v.colorSlug)).size !== cleanVariants.length) {
+      toast.error("Há cores com o mesmo identificador de URL.");
+      return;
+    }
+
     setSaving(true);
     try {
-      await upsertProduct({
+      const productId = await upsertProduct({
         ...draft,
         name,
         slug: draft.slug.trim() ? slugify(draft.slug) : slugify(name),
         onSale: draft.compareAtPrice != null && draft.compareAtPrice > draft.price,
       });
+      await saveProductVariants(productId, cleanVariants);
       await queryClient.invalidateQueries();
       toast.success(product ? "Produto atualizado." : "Produto criado.");
       navigate({ to: "/admin/products" });
