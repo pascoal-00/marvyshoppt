@@ -7,6 +7,7 @@ export type CartItem = {
   productId: string;
   size: string;
   quantity: number;
+  color?: string | null;
 };
 
 type StoreValue = {
@@ -16,7 +17,7 @@ type StoreValue = {
   hydrated: boolean;
   count: number;
   subtotal: number;
-  addItem: (product: Product, size: string, quantity?: number) => void;
+  addItem: (product: Product, size: string, quantity?: number, color?: string | null) => void;
   removeItem: (key: string) => void;
   setQuantity: (key: string, quantity: number) => void;
   clear: () => void;
@@ -58,14 +59,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (hydrated) localStorage.setItem(WISH_KEY, JSON.stringify(wishlist));
   }, [wishlist, hydrated]);
 
-  const addItem = useCallback((product: Product, size: string, quantity = 1) => {
-    const key = `${product.id}__${size}`;
+  const addItem = useCallback((product: Product, size: string, quantity = 1, color: string | null = null) => {
+    const key = `${product.id}__${size}__${color ?? ""}`;
     setItems((prev) => {
       const existing = prev.find((i) => i.key === key);
       if (existing) {
         return prev.map((i) => (i.key === key ? { ...i, quantity: i.quantity + quantity } : i));
       }
-      return [...prev, { key, productId: product.id, size, quantity }];
+      return [...prev, { key, productId: product.id, size, quantity, color }];
     });
     setDrawerOpen(true);
   }, []);
