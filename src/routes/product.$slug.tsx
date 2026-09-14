@@ -52,6 +52,20 @@ function ProductPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeImage, setActiveImage] = useState(0);
 
+  const { cor } = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const activeVariants = product.variants.filter((v) => v.active);
+  const variant = findVariant(product, cor);
+  const images = variantImages(product, variant);
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [variant?.id]);
+
+  const selectColor = (colorSlug: string) => {
+    navigate({ to: ".", search: (prev) => ({ ...prev, cor: colorSlug }), replace: true });
+  };
+
   const related = products.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
 
   const handleAdd = () => {
