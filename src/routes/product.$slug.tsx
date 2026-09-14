@@ -9,6 +9,9 @@ import { ProductCard } from "@/components/ProductCard";
 import { AdSlot } from "@/components/AdSlot";
 
 export const Route = createFileRoute("/product/$slug")({
+  validateSearch: (search: Record<string, unknown>): { cor?: string | undefined } => ({
+    cor: typeof search["cor"] === "string" ? (search["cor"] as string) : undefined,
+  }),
   loader: async ({ params }) => {
     const product = await getProductMeta({ data: { slug: params.slug } });
     if (!product) throw notFound();
