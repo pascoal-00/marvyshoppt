@@ -47,7 +47,26 @@ const field = "mt-2 w-full border border-border bg-background px-3 py-2 text-sm 
 export function ProductForm({ product, categories }: { product?: Product; categories: Category[] }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [draft, setDraft] = useState<Draft>(product ? { ...product } : emptyDraft);
+  const [draft, setDraft] = useState<Draft>(() => {
+    if (!product) return emptyDraft;
+    const { id, createdAt, variants, ...rest } = product;
+    void createdAt;
+    void variants;
+    return { ...rest, id };
+  });
+  const [variants, setVariants] = useState<VariantDraft[]>(() =>
+    (product?.variants ?? []).map((v) => ({
+      id: v.id,
+      colorSlug: v.colorSlug,
+      colorName: v.colorName,
+      colorHex: v.colorHex,
+      images: v.images,
+      sku: v.sku,
+      stock: v.stock,
+      sortOrder: v.sortOrder,
+      active: v.active,
+    })),
+  );
   const [customSize, setCustomSize] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
