@@ -97,7 +97,7 @@ function ProductPage() {
             />
           </div>
           <div className="mt-3 flex gap-3">
-            {product.images.map((img, i) => (
+            {images.map((img, i) => (
               <button
                 key={img}
                 type="button"
