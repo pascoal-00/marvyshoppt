@@ -15,9 +15,9 @@ import {
   type Product,
   type ProductType,
 } from "@/lib/catalog";
-import { upsertProduct, uploadProductImage } from "@/lib/admin-api";
+import { upsertProduct, uploadProductImage, saveProductVariants, type VariantDraft } from "@/lib/admin-api";
 
-type Draft = Omit<Product, "id" | "createdAt"> & { id?: string };
+type Draft = Omit<Product, "id" | "createdAt" | "variants"> & { id?: string };
 
 const emptyDraft: Draft = {
   slug: "",
