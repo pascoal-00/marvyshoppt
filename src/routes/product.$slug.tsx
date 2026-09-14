@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
-import { availabilityLabel, formatPrice } from "@/lib/catalog";
+import { availabilityLabel, formatPrice, findVariant, variantImages } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-context";
 import { getProductMeta } from "@/lib/catalog.functions";
 import { useStore } from "@/lib/store";
