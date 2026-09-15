@@ -271,6 +271,44 @@ export type VariantDraft = {
   active: boolean;
 };
 
+function variantToRow(productId: string, variant: VariantDraft) {
+  return {
+    product_id: productId,
+    color_slug: variant.colorSlug,
+    color_name: variant.colorName,
+    color_hex: variant.colorHex || "#000000",
+    images: variant.images,
+    sku: variant.sku,
+    stock: variant.stock,
+    sort_order: variant.sortOrder,
+    active: variant.active,
+  };
+}
+
+/** Cria ou atualiza uma única variante (sem tocar nas restantes). */
+export async function saveProductVariant(productId: string, variant: VariantDraft) {
+  const client = supabase as any;
+  const row = variantToRow(productId, variant);
+  if (variant.id) {
+    const { error } = await client.from("product_variants").update(row).eq("id", variant.id);
+    if (error) throw error;
+    return variant.id;
+  }
+  const { data, error } = await client.from("product_variants").insert(row).select("id").single();
+  if (error) throw error;
+  return data.id as string;
+}
+
+export async function setVariantActive(id: string, active: boolean) {
+  const { error } = await (supabase as any).from("product_variants").update({ active }).eq("id", id);
+  if (error) throw error;
+}
+
+export async function deleteProductVariant(id: string) {
+  const { error } = await (supabase as any).from("product_variants").delete().eq("id", id);
+  if (error) throw error;
+}
+
 export async function saveProductVariants(productId: string, variants: VariantDraft[]) {
   const client = supabase as any;
   const { data: existing, error: readError } = await client
