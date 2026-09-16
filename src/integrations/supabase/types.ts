@@ -139,34 +139,55 @@ export type Database = {
       }
       orders: {
         Row: {
+          address_line: string
+          city: string
           contact: string | null
+          country: string
           created_at: string
           currency: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
           id: string
           note: string | null
           order_number: string
+          postal_code: string
           status: string
           subtotal: number
           updated_at: string
         }
         Insert: {
+          address_line?: string
+          city?: string
           contact?: string | null
+          country?: string
           created_at?: string
           currency?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
           id?: string
           note?: string | null
           order_number?: string
+          postal_code?: string
           status?: string
           subtotal?: number
           updated_at?: string
         }
         Update: {
+          address_line?: string
+          city?: string
           contact?: string | null
+          country?: string
           created_at?: string
           currency?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
           id?: string
           note?: string | null
           order_number?: string
+          postal_code?: string
           status?: string
           subtotal?: number
           updated_at?: string
