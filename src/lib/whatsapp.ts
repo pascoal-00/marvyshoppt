@@ -1,4 +1,5 @@
 import { formatPrice, type Product, type StoreSettings } from "./catalog";
+import type { CustomerInfo } from "./customer";
 import type { CartItem } from "./store";
 
 export function whatsappUrl(settings: StoreSettings) {
@@ -11,6 +12,7 @@ export function buildOrderMessage(
   products: Product[],
   settings: StoreSettings,
   orderNumber?: string,
+  customer?: CustomerInfo,
 ) {
   const lines = items.flatMap((item) => {
     const p = products.find((pr) => pr.id === item.productId);
@@ -25,10 +27,26 @@ export function buildOrderMessage(
     ];
   });
 
+  const customerBlock = customer
+    ? [
+        "DADOS DO CLIENTE",
+        `Nome: ${customer.name}`,
+        `Telefone: ${customer.phone}`,
+        `Email: ${customer.email}`,
+        `Endereço: ${customer.addressLine}`,
+        `Código postal: ${customer.postalCode} — ${customer.city}`,
+        `País: ${customer.country}`,
+        ...(customer.note ? [`Nota: ${customer.note}`] : []),
+        "",
+      ]
+    : [];
+
   return [
     `Olá, ${settings.storeName}! Gostaria de fazer um pedido:`,
-    orderNumber ? `Nº do pedido: ${orderNumber}` : "",
+    ...(orderNumber ? [`Nº do pedido: ${orderNumber}`] : []),
     "",
+    ...customerBlock,
+    "PRODUTOS",
     lines.join("\n\n"),
     "",
     `Subtotal: ${formatPrice(subtotal)}`,
@@ -36,9 +54,7 @@ export function buildOrderMessage(
     `Gostaria de confirmar a disponibilidade, o valor final do envio para Portugal (${settings.shippingFrom}) e as condições de pagamento.`,
     "",
     "Obrigado.",
-  ]
-    .filter((line, index) => !(index === 1 && line === ""))
-    .join("\n");
+  ].join("\n");
 }
 
 export function orderUrl(
@@ -47,8 +63,9 @@ export function orderUrl(
   products: Product[],
   settings: StoreSettings,
   orderNumber?: string,
+  customer?: CustomerInfo,
 ) {
   return `${whatsappUrl(settings)}?text=${encodeURIComponent(
-    buildOrderMessage(items, subtotal, products, settings, orderNumber),
+    buildOrderMessage(items, subtotal, products, settings, orderNumber, customer),
   )}`;
 }
