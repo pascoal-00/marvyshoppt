@@ -45,12 +45,22 @@ export const createOrder = createServerFn({ method: "POST" })
             z.object({
               slug: z.string().min(1).max(120),
               size: z.string().min(1).max(40),
+              color: z.string().trim().max(60).optional(),
               quantity: z.number().int().min(1).max(20),
             }),
           )
           .min(1)
           .max(50),
-        contact: z.string().trim().max(120).optional(),
+        customer: z.object({
+          name: z.string().trim().min(2).max(120),
+          phone: z.string().trim().min(6).max(30),
+          email: z.string().trim().email().max(160),
+          addressLine: z.string().trim().min(5).max(200),
+          postalCode: z.string().trim().min(4).max(20),
+          city: z.string().trim().min(2).max(80),
+          country: z.string().trim().min(2).max(60),
+          note: z.string().trim().max(500).optional(),
+        }),
       })
       .parse(input),
   )
@@ -70,7 +80,7 @@ export const createOrder = createServerFn({ method: "POST" })
       return [
         {
           product_id: product.id,
-          product_name: product.name,
+          product_name: item.color ? `${product.name} (${item.color})` : product.name,
           size: item.size,
           quantity: item.quantity,
           unit_price: Number(product.price),
@@ -80,10 +90,23 @@ export const createOrder = createServerFn({ method: "POST" })
     if (items.length === 0) throw new Error("Nenhum produto válido no pedido.");
 
     const subtotal = items.reduce((sum, i) => sum + i.unit_price * i.quantity, 0);
+    const c = data.customer;
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")
-      .insert({ subtotal, contact: data.contact ?? null, status: "NOVO" })
+      .insert({
+        subtotal,
+        contact: `${c.name} · ${c.phone}`,
+        customer_name: c.name,
+        customer_phone: c.phone,
+        customer_email: c.email,
+        address_line: c.addressLine,
+        postal_code: c.postalCode,
+        city: c.city,
+        country: c.country,
+        note: c.note ?? null,
+        status: "NOVO",
+      })
       .select("id, order_number")
       .single();
     if (orderError || !order) throw new Error("Não foi possível registar o pedido.");
