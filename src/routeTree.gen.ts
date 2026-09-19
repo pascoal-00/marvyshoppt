@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as Console9f3d2aRouteImport } from './routes/console-9f3d2a'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as ShopRouteImport } from './routes/shop'
@@ -44,6 +45,11 @@ const AdminRoute = AdminRouteImport.update({
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Console9f3d2aRoute = Console9f3d2aRouteImport.update({
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
   '/shop': typeof ShopRoute
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/cart'
+    | '/checkout'
     | '/console-9f3d2a'
     | '/how-it-works'
     | '/shop'
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/cart'
+    | '/checkout'
     | '/console-9f3d2a'
     | '/how-it-works'
     | '/shop'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/cart'
+    | '/checkout'
     | '/console-9f3d2a'
     | '/how-it-works'
     | '/shop'
@@ -279,6 +291,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   Console9f3d2aRoute: typeof Console9f3d2aRoute
   HowItWorksRoute: typeof HowItWorksRoute
   ShopRoute: typeof ShopRoute
@@ -309,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/console-9f3d2a': {
@@ -484,6 +504,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   Console9f3d2aRoute: Console9f3d2aRoute,
   HowItWorksRoute: HowItWorksRoute,
   ShopRoute: ShopRoute,
