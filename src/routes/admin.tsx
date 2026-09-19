@@ -38,6 +38,7 @@ const NAV = [
   { to: "/admin/media", label: "Imagens do site" },
   { to: "/admin/ads", label: "Publicidade" },
   { to: "/admin/orders", label: "Pedidos" },
+  { to: "/admin/customers", label: "Clientes" },
   { to: "/admin/settings", label: "Configurações" },
 ] as const;
 

@@ -26,7 +26,30 @@ export type AdminOrder = {
   contact: string | null;
   status: string;
   createdAt: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  addressLine: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  note: string | null;
   items: { id: string; productName: string; size: string; quantity: number; unitPrice: number }[];
+};
+
+export type AdminCustomer = {
+  key: string;
+  name: string;
+  phone: string;
+  email: string;
+  addressLine: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  orders: AdminOrder[];
+  totalSpent: number;
+  firstOrderAt: string;
+  lastOrderAt: string;
 };
 
 export async function fetchAdminProducts(): Promise<Product[]> {
@@ -165,6 +188,14 @@ export async function fetchOrders(): Promise<AdminOrder[]> {
     contact: row.contact ?? null,
     status: row.status,
     createdAt: row.created_at,
+    customerName: row.customer_name ?? "",
+    customerPhone: row.customer_phone ?? "",
+    customerEmail: row.customer_email ?? "",
+    addressLine: row.address_line ?? "",
+    postalCode: row.postal_code ?? "",
+    city: row.city ?? "",
+    country: row.country ?? "",
+    note: row.note ?? null,
     items: (row.order_items ?? []).map((item: any) => ({
       id: item.id,
       productName: item.product_name,
@@ -173,6 +204,43 @@ export async function fetchOrders(): Promise<AdminOrder[]> {
       unitPrice: Number(item.unit_price ?? 0),
     })),
   }));
+}
+
+/** Agrupa os pedidos por cliente (telefone, ou email como alternativa). */
+export function groupCustomers(orders: AdminOrder[]): AdminCustomer[] {
+  const map = new Map<string, AdminCustomer>();
+  for (const order of orders) {
+    const key = (order.customerPhone || order.customerEmail || order.orderNumber).toLowerCase();
+    const existing = map.get(key);
+    if (existing) {
+      existing.orders.push(order);
+      existing.totalSpent += order.subtotal;
+      if (order.createdAt < existing.firstOrderAt) existing.firstOrderAt = order.createdAt;
+      if (order.createdAt > existing.lastOrderAt) {
+        existing.lastOrderAt = order.createdAt;
+        existing.addressLine = order.addressLine;
+        existing.postalCode = order.postalCode;
+        existing.city = order.city;
+        existing.country = order.country;
+      }
+      continue;
+    }
+    map.set(key, {
+      key,
+      name: order.customerName || order.contact || "Cliente sem nome",
+      phone: order.customerPhone,
+      email: order.customerEmail,
+      addressLine: order.addressLine,
+      postalCode: order.postalCode,
+      city: order.city,
+      country: order.country,
+      orders: [order],
+      totalSpent: order.subtotal,
+      firstOrderAt: order.createdAt,
+      lastOrderAt: order.createdAt,
+    });
+  }
+  return [...map.values()].sort((a, b) => b.lastOrderAt.localeCompare(a.lastOrderAt));
 }
 
 export async function updateOrderStatus(id: string, status: string) {

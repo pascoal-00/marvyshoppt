@@ -2,14 +2,11 @@ import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { formatPrice } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-context";
-import { useOrderSubmit } from "@/lib/use-order-submit";
 import { useStore } from "@/lib/store";
-import { orderUrl } from "@/lib/whatsapp";
 
 export function CartDrawer() {
   const { drawerOpen, closeDrawer, items, setQuantity, removeItem, subtotal } = useStore();
   const { products, settings } = useCatalog();
-  const submitOrder = useOrderSubmit();
 
   return (
     <div
@@ -106,18 +103,16 @@ export function CartDrawer() {
             <p className="mt-2 text-xs text-muted-foreground">
               Envio: {settings.shippingFrom}. Valor final confirmado pela M-Shop.
             </p>
-            <a
-              href={orderUrl(items, subtotal, products, settings)}
-              onClick={() => submitOrder()}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/checkout"
+              onClick={closeDrawer}
               className="mt-4 block bg-ink px-6 py-4 text-center text-[11px] font-semibold tracking-[0.2em] text-background transition-colors hover:bg-accent"
             >
               FAZER PEDIDO
-            </a>
+            </Link>
             <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-              O pedido será enviado para o WhatsApp da M-Shop para confirmação de disponibilidade,
-              pagamento e envio.
+              Preenches os teus dados de entrega no passo seguinte e a mensagem completa segue para o
+              WhatsApp da M-Shop.
             </p>
             <Link
               to="/cart"

@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { formatPrice } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-context";
-import { useOrderSubmit } from "@/lib/use-order-submit";
 import { useStore } from "@/lib/store";
-import { orderUrl } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -27,7 +25,6 @@ export const Route = createFileRoute("/cart")({
 function CartPage() {
   const { items, setQuantity, removeItem, subtotal, hydrated } = useStore();
   const { products, settings } = useCatalog();
-  const submitOrder = useOrderSubmit();
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-14 lg:px-8">
@@ -105,18 +102,15 @@ function CartPage() {
             <p className="mt-3 text-xs text-muted-foreground">
               Envio: {settings.shippingFrom}. {settings.shippingNote}
             </p>
-            <a
-              href={orderUrl(items, subtotal, products, settings)}
-              onClick={() => submitOrder()}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/checkout"
               className="mt-6 block bg-ink px-6 py-4 text-center text-[11px] font-semibold tracking-[0.2em] text-background transition-colors hover:bg-accent"
             >
               FAZER PEDIDO
-            </a>
+            </Link>
             <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-              O pedido será enviado para o WhatsApp da M-Shop para confirmação de disponibilidade,
-              pagamento e envio. Estado inicial: pedido iniciado.
+              No passo seguinte preenches os teus dados de entrega. O pedido fica registado na M-Shop
+              e a mensagem com toda a informação é enviada para o WhatsApp.
             </p>
           </aside>
         </div>
