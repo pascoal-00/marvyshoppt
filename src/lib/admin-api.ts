@@ -26,7 +26,30 @@ export type AdminOrder = {
   contact: string | null;
   status: string;
   createdAt: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  addressLine: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  note: string | null;
   items: { id: string; productName: string; size: string; quantity: number; unitPrice: number }[];
+};
+
+export type AdminCustomer = {
+  key: string;
+  name: string;
+  phone: string;
+  email: string;
+  addressLine: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  orders: AdminOrder[];
+  totalSpent: number;
+  firstOrderAt: string;
+  lastOrderAt: string;
 };
 
 export async function fetchAdminProducts(): Promise<Product[]> {

@@ -25,7 +25,6 @@ export const Route = createFileRoute("/cart")({
 function CartPage() {
   const { items, setQuantity, removeItem, subtotal, hydrated } = useStore();
   const { products, settings } = useCatalog();
-  const submitOrder = useOrderSubmit();
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-14 lg:px-8">
