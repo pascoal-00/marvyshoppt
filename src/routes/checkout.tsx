@@ -159,6 +159,7 @@ function CheckoutPage() {
               <span className="eyebrow">{field.label}</span>
               <input
                 type={field.type ?? "text"}
+                aria-label={field.label}
                 value={form[field.key] ?? ""}
                 onChange={(e) => set(field.key, e.target.value)}
                 placeholder={field.placeholder}
@@ -177,6 +178,7 @@ function CheckoutPage() {
             <span className="eyebrow">Nota para a M-Shop (opcional)</span>
             <textarea
               value={form.note ?? ""}
+              aria-label="Nota para a M-Shop"
               onChange={(e) => set("note", e.target.value)}
               rows={3}
               maxLength={500}
