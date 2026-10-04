@@ -25,7 +25,7 @@ export const EMPTY_CUSTOMER: CustomerInfo = {
   addressLine: "",
   postalCode: "",
   city: "",
-  country: "Portugal",
+  country: "",
   note: "",
 };
 
