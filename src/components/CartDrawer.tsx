@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
-import { formatPrice } from "@/lib/catalog";
 import { useCatalog } from "@/lib/catalog-context";
 import { useStore } from "@/lib/store";
 import { useI18n } from "@/lib/i18n";
