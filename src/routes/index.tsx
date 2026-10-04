@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { styles } from "@/lib/catalog";
 import { useCatalog, useSiteImage } from "@/lib/catalog-context";
+import { useI18n } from "@/lib/i18n";
 import { AdSlot } from "@/components/AdSlot";
 import { ProductCard } from "@/components/ProductCard";
 import hero from "@/assets/hero.jpg";
@@ -41,6 +42,7 @@ const STEPS = [
 
 function Home() {
   const { products, categories, settings } = useCatalog();
+  const { t } = useI18n();
   const heroImg = useSiteImage("hero", hero, "Editorial M-Shop: streetwear e sneakers");
   const campaignImg = useSiteImage("campaign", campaign.url, "M-SHOP STREET 03");
   const editImg1 = useSiteImage("edit_1", edit1, "Editorial M-Shop");
@@ -56,10 +58,10 @@ function Home() {
   ];
   const newIn = products.filter((p) => p.isNew).slice(0, 4);
   const TRUST = [
-    { t: "ENVIOS PARA A EUROPA", d: settings.shippingFrom },
-    { t: "PRAZO ESTIMADO", d: settings.deliveryTime },
-    { t: "PEDIDO VIA WHATSAPP", d: "Atendimento personalizado" },
-    { t: "PAGAMENTO", d: "Confirmado após o pedido" },
+    { t: t("trust.shipping"), d: settings.shippingFrom },
+    { t: t("trust.delivery"), d: settings.deliveryTime },
+    { t: t("trust.whatsapp"), d: t("trust.whatsapp.d") },
+    { t: t("trust.payment"), d: t("trust.payment.d") },
   ];
 
   return (
@@ -76,14 +78,14 @@ function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-transparent" />
         <div className="absolute inset-0 flex items-center">
           <div className="mx-auto w-full max-w-[1400px] px-4 lg:px-8">
-            <p className="eyebrow text-accent">New arrivals</p>
+            <p className="eyebrow text-accent">{t("home.eyebrow")}</p>
             <h1 className="display mt-4 text-5xl sm:text-6xl lg:text-8xl">
               Your style.
               <br />
               Your pair.
             </h1>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-background/70">
-              Sneakers e acessórios selecionados para quem não passa despercebido.
+              {t("home.hero.sub")}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -91,14 +93,14 @@ function Home() {
                 params={{ slug: "sneakers" }}
                 className="bg-background px-7 py-4 text-[11px] font-semibold tracking-[0.2em] text-ink transition-colors hover:bg-accent hover:text-background"
               >
-                EXPLORAR SNEAKERS
+                {t("home.cta.sneakers")}
               </Link>
               <Link
                 to="/category/$slug"
                 params={{ slug: "new-in" }}
                 className="border border-white/40 px-7 py-4 text-[11px] font-semibold tracking-[0.2em] transition-colors hover:border-background"
               >
-                VER NEW IN
+                {t("home.cta.newin")}
               </Link>
             </div>
           </div>
@@ -121,7 +123,7 @@ function Home() {
 
       {/* CATEGORIES */}
       <section className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
-        <h2 className="display text-3xl md:text-4xl">Shop by category</h2>
+        <h2 className="display text-3xl md:text-4xl">{t("home.categories")}</h2>
         <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
           {categories.map((c) => (
             <Link
@@ -147,13 +149,13 @@ function Home() {
       <section className="mx-auto max-w-[1400px] px-4 pb-16 lg:px-8">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <h2 className="display text-3xl md:text-4xl">New in</h2>
+            <h2 className="display text-3xl md:text-4xl">{t("home.newin")}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Os últimos modelos adicionados à M-Shop.
+              {t("home.newin.sub")}
             </p>
           </div>
           <Link to="/shop" className="eyebrow shrink-0 border-b border-ink pb-1">
-            Ver tudo
+            {t("home.viewAll")}
           </Link>
         </div>
         <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
@@ -171,17 +173,17 @@ function Home() {
             className="h-full max-h-[560px] w-full object-cover"
           />
           <div className="flex flex-col justify-center px-6 py-14 lg:px-14">
-            <p className="eyebrow text-accent">Destaque</p>
+            <p className="eyebrow text-accent">{t("home.highlight")}</p>
             <h2 className="display mt-4 text-4xl lg:text-5xl">Street 03</h2>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-background/70">
-              Contraste, volume e presença. A silhueta que define a temporada.
+              {t("home.campaign.sub")}
             </p>
             <Link
               to="/product/$slug"
               params={{ slug: "m-shop-street-03" }}
               className="mt-8 w-fit bg-background px-7 py-4 text-[11px] font-semibold tracking-[0.2em] text-ink transition-colors hover:bg-accent hover:text-background"
             >
-              EXPLORAR
+              {t("home.explore")}
             </Link>
           </div>
         </div>
@@ -189,7 +191,7 @@ function Home() {
 
       {/* SHOP BY STYLE */}
       <section className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
-        <h2 className="display text-3xl md:text-4xl">Shop by style</h2>
+        <h2 className="display text-3xl md:text-4xl">{t("home.styles")}</h2>
         <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
           {styles.map((s) => (
             <Link
@@ -208,19 +210,18 @@ function Home() {
       {/* COMO FUNCIONA */}
       <section className="bg-surface">
         <div className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
-          <h2 className="display text-3xl md:text-4xl">Como funciona</h2>
+          <h2 className="display text-3xl md:text-4xl">{t("home.how")}</h2>
           <ol className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((s) => (
+            {STEPS.map((s, i) => (
               <li key={s.n}>
                 <span className="display text-3xl text-accent">{s.n}</span>
-                <h3 className="mt-3 text-sm font-semibold tracking-[0.1em]">{s.t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
+                <h3 className="mt-3 text-sm font-semibold tracking-[0.1em]">{t(`steps.${i + 1}.t`)}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{t(`steps.${i + 1}.d`)}</p>
               </li>
             ))}
           </ol>
           <p className="mt-10 max-w-2xl text-xs leading-relaxed text-muted-foreground">
-            Encomendas para a Europa têm prazo estimado de até 2 semanas. Os custos de envio
-            são confirmados de acordo com a encomenda.
+            {t("home.how.note")}
           </p>
         </div>
       </section>
@@ -247,8 +248,7 @@ function Home() {
         <div className="mx-auto max-w-[1400px] px-4 lg:px-8">
           <h2 className="display text-5xl md:text-7xl">Move different.</h2>
           <p className="mt-6 max-w-lg text-sm leading-relaxed text-background/70">
-            A M-Shop nasceu para aproximar sneakers e acessórios de quem procura estilo, variedade e
-            uma experiência de compra simples.
+            {t("home.statement.sub")}
           </p>
         </div>
       </section>
