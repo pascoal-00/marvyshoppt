@@ -255,7 +255,7 @@ function ProductPage() {
             <div className="py-5">
               <dt className="eyebrow">Envio</dt>
               <dd className="mt-3 space-y-1 text-muted-foreground">
-                <p>Envio para Portugal {settings.shippingFrom.toLowerCase()}.</p>
+                <p>Envio para a Europa {settings.shippingFrom.toLowerCase()}.</p>
                 <p>Prazo estimado: {settings.deliveryTime.toLowerCase()}.</p>
                 <p>{settings.shippingNote}</p>
               </dd>

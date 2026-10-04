@@ -51,7 +51,7 @@ export function buildOrderMessage(
     "",
     `Subtotal: ${formatPrice(subtotal)}`,
     "",
-    `Gostaria de confirmar a disponibilidade, o valor final do envio para Portugal (${settings.shippingFrom}) e as condições de pagamento.`,
+    `Gostaria de confirmar a disponibilidade, o valor final do envio para a Europa (${settings.shippingFrom}) e as condições de pagamento.`,
     "",
     "Obrigado.",
   ].join("\n");

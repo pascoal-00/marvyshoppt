@@ -92,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Descobre sneakers e acessórios selecionados pela M-Shop, com encomendas destinadas a Portugal.",
+          "Descobre sneakers e acessórios selecionados pela M-Shop, com envios para toda a Europa.",
       },
       { property: "og:site_name", content: "M-SHOP" },
       { property: "og:type", content: "website" },

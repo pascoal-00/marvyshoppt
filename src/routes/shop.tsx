@@ -15,7 +15,7 @@ export const Route = createFileRoute("/shop")({
       { title: "Shop | M-Shop" },
       {
         name: "description",
-        content: "Explora a seleção M-Shop de sneakers e acessórios, com envio para Portugal.",
+        content: "Explora a seleção M-Shop de sneakers e acessórios, com envio para toda a Europa.",
       },
       { property: "og:title", content: "Shop | M-Shop" },
       { property: "og:description", content: "Explora a seleção M-Shop de sneakers e acessórios." },

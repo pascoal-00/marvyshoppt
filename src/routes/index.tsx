@@ -17,12 +17,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Descobre sneakers e acessórios selecionados pela M-Shop, com encomendas destinadas a Portugal.",
+          "Descobre sneakers e acessórios selecionados pela M-Shop, com envios para toda a Europa.",
       },
       { property: "og:title", content: "M-Shop | Sneakers & Acessórios" },
       {
         property: "og:description",
-        content: "Sneakers e acessórios selecionados. Envio para Portugal desde €13,50.",
+        content: "Sneakers e acessórios selecionados. Envio para a Europa desde €13,50.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
@@ -219,7 +219,7 @@ function Home() {
             ))}
           </ol>
           <p className="mt-10 max-w-2xl text-xs leading-relaxed text-muted-foreground">
-            Encomendas destinadas a Portugal têm prazo estimado de até 2 semanas. Os custos de envio
+            Encomendas para a Europa têm prazo estimado de até 2 semanas. Os custos de envio
             são confirmados de acordo com a encomenda.
           </p>
         </div>

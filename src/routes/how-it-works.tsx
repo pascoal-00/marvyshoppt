@@ -9,12 +9,12 @@ export const Route = createFileRoute("/how-it-works")({
       {
         name: "description",
         content:
-          "Escolhe, adiciona ao carrinho e faz o pedido pelo WhatsApp da M-Shop. Envios para Portugal com prazo estimado até 2 semanas.",
+          "Escolhe, adiciona ao carrinho e faz o pedido pelo WhatsApp da M-Shop. Envios para a Europa com prazo estimado até 2 semanas.",
       },
       { property: "og:title", content: "Como Funciona | M-Shop" },
       {
         property: "og:description",
-        content: "Pedido via WhatsApp, envio para Portugal desde €13,50 e confirmação personalizada.",
+        content: "Pedido via WhatsApp, envio para a Europa desde €13,50 e confirmação personalizada.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "/how-it-works" },
