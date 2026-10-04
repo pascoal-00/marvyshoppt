@@ -56,7 +56,7 @@ function Home() {
   ];
   const newIn = products.filter((p) => p.isNew).slice(0, 4);
   const TRUST = [
-    { t: "ENVIO PARA PORTUGAL", d: settings.shippingFrom },
+    { t: "ENVIOS PARA A EUROPA", d: settings.shippingFrom },
     { t: "PRAZO ESTIMADO", d: settings.deliveryTime },
     { t: "PEDIDO VIA WHATSAPP", d: "Atendimento personalizado" },
     { t: "PAGAMENTO", d: "Confirmado após o pedido" },
