@@ -15,7 +15,7 @@ export const Route = createFileRoute("/category/$slug")({
     return {
       meta: [
         { title: `${label} | M-Shop` },
-        { name: "description", content: `${label} selecionados pela M-Shop, com envio para Portugal.` },
+        { name: "description", content: `${label} selecionados pela M-Shop, com envio para toda a Europa.` },
         { property: "og:title", content: `${label} | M-Shop` },
         { property: "og:description", content: `${label} selecionados pela M-Shop.` },
         { property: "og:type", content: "website" },

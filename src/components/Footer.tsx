@@ -2,19 +2,20 @@ import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { useCatalog } from "@/lib/catalog-context";
+import { useI18n } from "@/lib/i18n";
 
 export function Footer() {
   const { settings } = useCatalog();
   const waUrl = whatsappUrl(settings);
+  const { t } = useI18n();
   return (
     <footer className="bg-ink text-background">
       <div className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-2 gap-10 lg:grid-cols-5">
+          <div className="col-span-2">
             <Logo className="h-8" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-background/60">
-              Sneakers e acessórios selecionados. Encomendas preparadas em Angola e destinadas a
-              Portugal.
+              {t("footer.about")}
             </p>
           </div>
 
@@ -22,7 +23,7 @@ export function Footer() {
             <h3 className="eyebrow text-background/50">Shop</h3>
             <ul className="mt-4 space-y-2 text-sm text-background/80">
               <li><Link to="/category/$slug" params={{ slug: "sneakers" }}>Sneakers</Link></li>
-              <li><Link to="/category/$slug" params={{ slug: "acessorios" }}>Acessórios</Link></li>
+              <li><Link to="/category/$slug" params={{ slug: "acessorios" }}>{t("nav.accessories")}</Link></li>
               <li><Link to="/category/$slug" params={{ slug: "new-in" }}>New In</Link></li>
               <li><Link to="/category/$slug" params={{ slug: "best-sellers" }}>Best Sellers</Link></li>
             </ul>
@@ -31,22 +32,22 @@ export function Footer() {
           <div>
             <h3 className="eyebrow text-background/50">M-Shop</h3>
             <ul className="mt-4 space-y-2 text-sm text-background/80">
-              <li><Link to="/how-it-works" hash="sobre">Sobre nós</Link></li>
-              <li><Link to="/how-it-works">Como funciona</Link></li>
+              <li><Link to="/how-it-works" hash="sobre">{t("footer.about.link")}</Link></li>
+              <li><Link to="/how-it-works">{t("how.title")}</Link></li>
               <li>
-                <a href={waUrl} target="_blank" rel="noopener noreferrer">Contactos</a>
+                <a href={waUrl} target="_blank" rel="noopener noreferrer">{t("footer.contact")}</a>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="eyebrow text-background/50">Help</h3>
+            <h3 className="eyebrow text-background/50">{t("footer.help")}</h3>
             <ul className="mt-4 space-y-2 text-sm text-background/80">
               <li><Link to="/how-it-works" hash="faq">FAQ</Link></li>
-              <li><Link to="/how-it-works" hash="envios">Envios</Link></li>
-              <li><Link to="/how-it-works" hash="trocas">Trocas</Link></li>
+              <li><Link to="/how-it-works" hash="envios">{t("footer.shipping")}</Link></li>
+              <li><Link to="/how-it-works" hash="trocas">{t("footer.returns")}</Link></li>
             </ul>
-            <h3 className="eyebrow mt-8 text-background/50">Contact</h3>
+            <h3 className="eyebrow mt-8 text-background/50">{t("footer.contact")}</h3>
             <ul className="mt-4 space-y-2 text-sm text-background/80">
               <li>
                 <a href={waUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>
@@ -56,7 +57,7 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-[11px] tracking-[0.14em] text-background/50">
-          <p>© 2026 M-SHOP. TODOS OS DIREITOS RESERVADOS.</p>
+          <p>{t("footer.rights")}</p>
         </div>
       </div>
     </footer>

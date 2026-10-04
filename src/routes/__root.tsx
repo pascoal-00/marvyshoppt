@@ -18,6 +18,7 @@ import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { CatalogProvider } from "@/lib/catalog-context";
+import { I18nProvider } from "@/lib/i18n";
 import { getCatalog } from "@/lib/catalog.functions";
 import { registerServiceWorker } from "@/lib/pwa";
 import { Toaster } from "@/components/ui/sonner";
@@ -92,7 +93,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Descobre sneakers e acessórios selecionados pela M-Shop, com encomendas destinadas a Portugal.",
+          "Descobre sneakers e acessórios selecionados pela M-Shop, com envios para toda a Europa.",
       },
       { property: "og:site_name", content: "M-SHOP" },
       { property: "og:type", content: "website" },
@@ -147,6 +148,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <I18nProvider>
       <CatalogProvider value={catalog}>
         <StoreProvider>
           {isAdminArea ? (
@@ -168,6 +170,7 @@ function RootComponent() {
           <Toaster />
         </StoreProvider>
       </CatalogProvider>
+      </I18nProvider>
     </QueryClientProvider>
   );
 }
