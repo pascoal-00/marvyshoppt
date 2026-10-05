@@ -256,7 +256,7 @@ export async function uploadProductImage(file: File) {
     upsert: false,
   });
   if (error) throw error;
-  return `/api/public/media/${path}`;
+  return supabase.storage.from("product-images").getPublicUrl(path).data.publicUrl;
 }
 
 /* ---------- Imagens do site ---------- */

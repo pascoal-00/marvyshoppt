@@ -9,7 +9,6 @@ import hero from "@/assets/hero.jpg";
 import edit1 from "@/assets/edit1.jpg";
 import edit2 from "@/assets/edit2.jpg";
 import catAcc from "@/assets/cat-acc.jpg";
-import campaign from "@/assets/image-7.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,7 +43,7 @@ function Home() {
   const { products, categories, settings } = useCatalog();
   const { t } = useI18n();
   const heroImg = useSiteImage("hero", hero, "Editorial M-Shop: streetwear e sneakers");
-  const campaignImg = useSiteImage("campaign", campaign.url, "M-SHOP STREET 03");
+  const campaignImg = useSiteImage("campaign", "/campaign.png", "M-SHOP STREET 03");
   const editImg1 = useSiteImage("edit_1", edit1, "Editorial M-Shop");
   const editImg2 = useSiteImage("edit_2", edit2, "Editorial M-Shop");
   const socialFallback = [edit1, edit2, catAcc, edit2, edit1, catAcc];

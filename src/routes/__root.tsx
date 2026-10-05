@@ -85,7 +85,14 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  loader: () => getCatalog(),
+  loader: async () => {
+    try {
+      return await getCatalog();
+    } catch {
+      const { fetchCatalogDirect } = await import("@/lib/catalog-direct");
+      return fetchCatalogDirect();
+    }
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
