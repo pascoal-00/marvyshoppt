@@ -94,7 +94,7 @@ export function mapProduct(row: any): Product {
     category: row.category_slug ?? "sneakers",
     subcategory: row.subcategory ?? null,
     style: row.style ?? "everyday",
-    images: row.images ?? [],
+    images: ((row.images ?? []) as string[]).map(resolveImage),
     sizes: row.sizes ?? [],
     availability: (row.availability ?? "in_stock") as Availability,
     productType: (row.product_type ?? "unbranded") as ProductType,
@@ -117,7 +117,7 @@ export function mapVariant(row: any): ProductVariant {
     colorSlug: row.color_slug,
     colorName: row.color_name,
     colorHex: row.color_hex ?? "#000000",
-    images: row.images ?? [],
+    images: ((row.images ?? []) as string[]).map(resolveImage),
     sku: row.sku ?? "",
     stock: row.stock ?? 0,
     sortOrder: row.sort_order ?? 0,
@@ -142,7 +142,7 @@ export function mapCategory(row: any): Category {
     id: row.id,
     slug: row.slug,
     label: row.label,
-    image: row.image_url ?? null,
+    image: row.image_url ? resolveImage(row.image_url) : null,
     sortOrder: row.sort_order ?? 0,
     active: row.active !== false,
   };
@@ -262,7 +262,7 @@ export function mapSiteImage(row: any): SiteImage {
   return {
     id: row.id,
     slot: row.slot,
-    image: row.image_url ?? null,
+    image: row.image_url ? resolveImage(row.image_url) : null,
     alt: row.alt ?? "",
     sortOrder: row.sort_order ?? 0,
     active: row.active !== false,
@@ -274,7 +274,7 @@ export function mapAd(row: any): Ad {
     id: row.id,
     title: row.title ?? "",
     subtitle: row.subtitle ?? "",
-    image: row.image_url ?? null,
+    image: row.image_url ? resolveImage(row.image_url) : null,
     linkUrl: row.link_url ?? null,
     ctaLabel: row.cta_label ?? "",
     placement: row.placement ?? "home_mid",
@@ -283,3 +283,11 @@ export function mapAd(row: any): Ad {
   };
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+const STORAGE_PUBLIC = "https://oexevjpvzyoqtrhqdjei.supabase.co/storage/v1/object/public/product-images/";
+/** Converte links antigos do proxy em links diretos e públicos das fotos. */
+export function resolveImage(url: string): string {
+  if (!url) return url;
+  const m = url.match(/\/api\/public\/media\/(.+)$/);
+  return m ? STORAGE_PUBLIC + m[1] : url;
+}
