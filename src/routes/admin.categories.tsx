@@ -18,6 +18,20 @@ function CategoriesPage() {
   const categories = useQuery({ queryKey: ["admin", "categories"], queryFn: fetchAdminCategories });
   const [draft, setDraft] = useState<Draft>(empty);
   const [confirming, setConfirming] = useState<Category | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const uploadImage = async (file: File) => {
+    setUploading(true);
+    try {
+      const url = await uploadProductImage(file, "categories");
+      setDraft((d) => ({ ...d, image: url }));
+      toast.success("Imagem carregada. Não te esqueças de guardar.");
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const save = useMutation({
     mutationFn: () =>
