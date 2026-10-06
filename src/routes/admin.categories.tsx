@@ -148,15 +148,34 @@ function CategoriesPage() {
               onChange={(e) => setDraft({ ...draft, slug: e.target.value })}
             />
           </label>
+          {draft.image && (
+            <div className="mt-4 aspect-[3/4] w-24 bg-surface">
+              <img src={draft.image} alt={draft.label || "Categoria"} className="h-full w-full object-cover" />
+            </div>
+          )}
           <label className="mt-4 block text-xs uppercase tracking-[0.14em] text-muted-foreground">
-            Imagem (URL)
+            Imagem
             <input
+              type="file"
+              accept="image/*"
               className={field}
-              value={draft.image}
-              maxLength={500}
-              onChange={(e) => setDraft({ ...draft, image: e.target.value })}
+              disabled={uploading}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void uploadImage(file);
+                e.target.value = "";
+              }}
             />
           </label>
+          {draft.image && (
+            <button
+              type="button"
+              className="mt-3 w-full border border-border px-4 py-2 text-[11px] tracking-[0.16em]"
+              onClick={() => setDraft({ ...draft, image: "" })}
+            >
+              REMOVER IMAGEM
+            </button>
+          )}
           <label className="mt-4 block text-xs uppercase tracking-[0.14em] text-muted-foreground">
             Ordem
             <input
