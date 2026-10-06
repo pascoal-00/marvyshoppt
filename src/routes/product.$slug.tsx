@@ -13,7 +13,8 @@ export const Route = createFileRoute("/product/$slug")({
     cor: typeof search["cor"] === "string" ? (search["cor"] as string) : undefined,
   }),
   loader: async ({ params }) => {
-    const product = await getProductMeta({ data: { slug: params.slug } });
+    const { getProductMetaSafe } = await import("@/lib/meta-direct");
+    const product = await getProductMetaSafe(params.slug, () => getProductMeta({ data: { slug: params.slug } }));
     if (!product) throw notFound();
     return { name: product.name, description: product.description, image: product.image };
   },
