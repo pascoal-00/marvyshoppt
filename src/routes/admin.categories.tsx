@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { deleteCategory, fetchAdminCategories, saveCategory } from "@/lib/admin-api";
+import { deleteCategory, fetchAdminCategories, saveCategory, uploadProductImage } from "@/lib/admin-api";
 import { slugify, type Category } from "@/lib/catalog";
 
 export const Route = createFileRoute("/admin/categories")({
@@ -18,6 +18,20 @@ function CategoriesPage() {
   const categories = useQuery({ queryKey: ["admin", "categories"], queryFn: fetchAdminCategories });
   const [draft, setDraft] = useState<Draft>(empty);
   const [confirming, setConfirming] = useState<Category | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const uploadImage = async (file: File) => {
+    setUploading(true);
+    try {
+      const url = await uploadProductImage(file, "categories");
+      setDraft((d) => ({ ...d, image: url }));
+      toast.success("Imagem carregada. Não te esqueças de guardar.");
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const save = useMutation({
     mutationFn: () =>
@@ -134,15 +148,34 @@ function CategoriesPage() {
               onChange={(e) => setDraft({ ...draft, slug: e.target.value })}
             />
           </label>
+          {draft.image && (
+            <div className="mt-4 aspect-[3/4] w-24 bg-surface">
+              <img src={draft.image} alt={draft.label || "Categoria"} className="h-full w-full object-cover" />
+            </div>
+          )}
           <label className="mt-4 block text-xs uppercase tracking-[0.14em] text-muted-foreground">
-            Imagem (URL)
+            Imagem
             <input
+              type="file"
+              accept="image/*"
               className={field}
-              value={draft.image}
-              maxLength={500}
-              onChange={(e) => setDraft({ ...draft, image: e.target.value })}
+              disabled={uploading}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void uploadImage(file);
+                e.target.value = "";
+              }}
             />
           </label>
+          {draft.image && (
+            <button
+              type="button"
+              className="mt-3 w-full border border-border px-4 py-2 text-[11px] tracking-[0.16em]"
+              onClick={() => setDraft({ ...draft, image: "" })}
+            >
+              REMOVER IMAGEM
+            </button>
+          )}
           <label className="mt-4 block text-xs uppercase tracking-[0.14em] text-muted-foreground">
             Ordem
             <input
