@@ -248,9 +248,9 @@ export async function updateOrderStatus(id: string, status: string) {
   if (error) throw error;
 }
 
-export async function uploadProductImage(file: File) {
+export async function uploadProductImage(file: File, folder = "products") {
   const ext = file.name.split(".").pop() ?? "jpg";
-  const path = `products/${crypto.randomUUID()}.${ext}`;
+  const path = `${folder}/${crypto.randomUUID()}.${ext}`;
   const { error } = await supabase.storage.from("product-images").upload(path, file, {
     cacheControl: "31536000",
     upsert: false,

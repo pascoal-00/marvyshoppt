@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { deleteCategory, fetchAdminCategories, saveCategory } from "@/lib/admin-api";
+import { deleteCategory, fetchAdminCategories, saveCategory, uploadProductImage } from "@/lib/admin-api";
 import { slugify, type Category } from "@/lib/catalog";
 
 export const Route = createFileRoute("/admin/categories")({
