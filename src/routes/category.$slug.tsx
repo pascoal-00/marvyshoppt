@@ -6,7 +6,8 @@ import { ProductGrid } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/category/$slug")({
   loader: async ({ params }) => {
-    const category = await getCategoryMeta({ data: { slug: params.slug } });
+    const { getCategoryMetaSafe } = await import("@/lib/meta-direct");
+    const category = await getCategoryMetaSafe(params.slug, () => getCategoryMeta({ data: { slug: params.slug } }));
     if (!category) throw notFound();
     return { label: category.label };
   },
