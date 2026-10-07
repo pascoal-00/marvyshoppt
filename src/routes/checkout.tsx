@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCatalog } from "@/lib/catalog-context";
 import { CUSTOMER_STORAGE_KEY, EMPTY_CUSTOMER, customerSchema, type CustomerInfo } from "@/lib/customer";
+import { OrderTotals } from "@/components/OrderTotals";
+import { calcShipping } from "@/lib/catalog";
 import { useOrderSubmit } from "@/lib/use-order-submit";
 import { useStore } from "@/lib/store";
 import { DEFAULT_DIAL, DIAL_CODES, useI18n } from "@/lib/i18n";
@@ -101,8 +103,10 @@ function CheckoutPage() {
     try {
       const orderNumber = await submitOrder(customer);
       if (!orderNumber) throw new Error("empty");
+      const units = items.reduce((n, i) => n + i.quantity, 0);
+      const shipping = calcShipping(settings, subtotal, units);
       localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(customer));
-      const link = orderUrl(items, subtotal, products, settings, orderNumber, customer);
+      const link = orderUrl(items, subtotal, products, settings, orderNumber, customer, shipping);
       setDone({ orderNumber, link });
       window.open(link, "_blank", "noopener,noreferrer");
       clear();
@@ -265,13 +269,10 @@ function CheckoutPage() {
               );
             })}
           </ul>
-          <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-sm">
-            <span>{t("cart.subtotal")}</span>
-            <span className="font-semibold">{price(subtotal)}</span>
+          <div className="mt-5 border-t border-border pt-4">
+            <OrderTotals />
           </div>
-          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            {t("cart.shipping")}: {settings.shippingFrom}. {settings.shippingNote}
-          </p>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{settings.shippingNote}</p>
         </aside>
       </div>
     </div>

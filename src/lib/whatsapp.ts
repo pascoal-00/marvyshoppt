@@ -13,6 +13,7 @@ export function buildOrderMessage(
   settings: StoreSettings,
   orderNumber?: string,
   customer?: CustomerInfo,
+  shipping?: number,
 ) {
   const lines = items.flatMap((item) => {
     const p = products.find((pr) => pr.id === item.productId);
@@ -50,8 +51,11 @@ export function buildOrderMessage(
     lines.join("\n\n"),
     "",
     `Subtotal: ${formatPrice(subtotal)}`,
+    ...(shipping !== undefined
+      ? [`Envio estimado (Europa): ${shipping === 0 ? "Grátis" : formatPrice(shipping)}`, `TOTAL ESTIMADO: ${formatPrice(subtotal + shipping)}`]
+      : []),
     "",
-    `Gostaria de confirmar a disponibilidade, o valor final do envio para a Europa (${settings.shippingFrom}) e as condições de pagamento.`,
+    `Gostaria de confirmar a disponibilidade e as condições de pagamento.`,
     "",
     "Obrigado.",
   ].join("\n");
@@ -64,8 +68,9 @@ export function orderUrl(
   settings: StoreSettings,
   orderNumber?: string,
   customer?: CustomerInfo,
+  shipping?: number,
 ) {
   return `${whatsappUrl(settings)}?text=${encodeURIComponent(
-    buildOrderMessage(items, subtotal, products, settings, orderNumber, customer),
+    buildOrderMessage(items, subtotal, products, settings, orderNumber, customer, shipping),
   )}`;
 }
