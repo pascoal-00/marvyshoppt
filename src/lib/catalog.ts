@@ -57,7 +57,17 @@ export type StoreSettings = {
   shippingNote: string;
   replicaNotice: string;
   currency: string;
+  shippingBase: number;
+  shippingExtra: number;
+  freeShippingOver: number;
 };
+
+/** Frete estimado: base + extra por cada unidade adicional; grátis acima do limite (0 = desativado). Igual à função place_order na base de dados. */
+export function calcShipping(settings: StoreSettings, subtotal: number, units: number) {
+  if (units <= 0) return 0;
+  if (settings.freeShippingOver > 0 && subtotal >= settings.freeShippingOver) return 0;
+  return settings.shippingBase + Math.max(units - 1, 0) * settings.shippingExtra;
+}
 
 export type Catalog = {
   products: Product[];
@@ -77,6 +87,9 @@ export const DEFAULT_SETTINGS: StoreSettings = {
   replicaNotice:
     "IMPORTANTE: Este produto é uma réplica/reprodução e NÃO é um produto original da marca apresentada. A M-Shop não representa nem é afiliada às marcas originais.",
   currency: "EUR",
+  shippingBase: 13.5,
+  shippingExtra: 3,
+  freeShippingOver: 0,
 };
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -158,6 +171,9 @@ export function mapSettings(row: any): StoreSettings {
     shippingNote: row.shipping_note ?? DEFAULT_SETTINGS.shippingNote,
     replicaNotice: row.replica_notice ?? DEFAULT_SETTINGS.replicaNotice,
     currency: row.currency ?? "EUR",
+    shippingBase: Number(row.shipping_base ?? DEFAULT_SETTINGS.shippingBase),
+    shippingExtra: Number(row.shipping_extra ?? DEFAULT_SETTINGS.shippingExtra),
+    freeShippingOver: Number(row.free_shipping_over ?? 0),
   };
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

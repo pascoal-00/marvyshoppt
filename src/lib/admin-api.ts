@@ -88,6 +88,9 @@ export async function saveSettings(values: StoreSettings) {
       shipping_note: values.shippingNote,
       replica_notice: values.replicaNotice,
       currency: values.currency,
+      shipping_base: values.shippingBase,
+      shipping_extra: values.shippingExtra,
+      free_shipping_over: values.freeShippingOver,
     })
     .eq("id", true);
   if (error) throw error;

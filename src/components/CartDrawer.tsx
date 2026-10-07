@@ -1,3 +1,4 @@
+import { OrderTotals } from "@/components/OrderTotals";
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useCatalog } from "@/lib/catalog-context";
@@ -97,13 +98,7 @@ export function CartDrawer() {
 
         {items.length > 0 && (
           <footer className="border-t border-border px-5 py-5">
-            <div className="flex items-center justify-between text-sm">
-              <span className="eyebrow">{t("cart.subtotal")}</span>
-              <span className="font-semibold">{price(subtotal)}</span>
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              {t("cart.shipping")}: {settings.shippingFrom}.
-            </p>
+            <OrderTotals />
             <Link
               to="/checkout"
               onClick={closeDrawer}

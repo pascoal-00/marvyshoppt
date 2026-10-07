@@ -1,3 +1,4 @@
+import { OrderTotals } from "@/components/OrderTotals";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCatalog } from "@/lib/catalog-context";
 import { useStore } from "@/lib/store";
@@ -96,13 +97,8 @@ function CartPage() {
 
           <aside className="h-fit bg-surface p-6 lg:sticky lg:top-32">
             <h2 className="eyebrow">{t("cart.summary")}</h2>
-            <div className="mt-5 flex items-center justify-between text-sm">
-              <span>{t("cart.subtotal")}</span>
-              <span className="font-semibold">{price(subtotal)}</span>
-            </div>
-            <p className="mt-3 text-xs text-muted-foreground">
-              {t("cart.shipping")}: {settings.shippingFrom}. {settings.shippingNote}
-            </p>
+            <OrderTotals />
+            <p className="mt-3 text-xs text-muted-foreground">{settings.shippingNote}</p>
             <Link
               to="/checkout"
               className="mt-6 block bg-ink px-6 py-4 text-center text-[11px] font-semibold tracking-[0.2em] text-background transition-colors hover:bg-accent"
