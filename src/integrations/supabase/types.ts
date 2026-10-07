@@ -152,6 +152,7 @@ export type Database = {
           note: string | null
           order_number: string
           postal_code: string
+          shipping: number
           status: string
           subtotal: number
           updated_at: string
@@ -170,6 +171,7 @@ export type Database = {
           note?: string | null
           order_number?: string
           postal_code?: string
+          shipping?: number
           status?: string
           subtotal?: number
           updated_at?: string
@@ -188,6 +190,7 @@ export type Database = {
           note?: string | null
           order_number?: string
           postal_code?: string
+          shipping?: number
           status?: string
           subtotal?: number
           updated_at?: string
@@ -363,8 +366,11 @@ export type Database = {
           created_at: string
           currency: string
           delivery_time: string
+          free_shipping_over: number
           id: boolean
           replica_notice: string
+          shipping_base: number
+          shipping_extra: number
           shipping_from: string
           shipping_note: string
           store_name: string
@@ -375,8 +381,11 @@ export type Database = {
           created_at?: string
           currency?: string
           delivery_time?: string
+          free_shipping_over?: number
           id?: boolean
           replica_notice?: string
+          shipping_base?: number
+          shipping_extra?: number
           shipping_from?: string
           shipping_note?: string
           store_name?: string
@@ -387,8 +396,11 @@ export type Database = {
           created_at?: string
           currency?: string
           delivery_time?: string
+          free_shipping_over?: number
           id?: boolean
           replica_notice?: string
+          shipping_base?: number
+          shipping_extra?: number
           shipping_from?: string
           shipping_note?: string
           store_name?: string
@@ -423,6 +435,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calc_shipping: {
+        Args: { _subtotal: number; _units: number }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -430,6 +446,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      place_order: { Args: { _customer: Json; _items: Json }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "staff"
