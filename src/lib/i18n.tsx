@@ -42,7 +42,7 @@ export const DEFAULT_DIAL = "+351";
 type Dict = Record<string, string>;
 
 const pt: Dict = {
-  "bar.shipping": "ENVIOS PARA A EUROPA · PRAZO ESTIMADO ATÉ 2 SEMANAS",
+  "bar.shipping": "ENVIOS PARA A EUROPA · PRAZO ESTIMADO ATÉ 15 DIAS",
   "nav.shop": "SHOP",
   "nav.sneakers": "SNEAKERS",
   "nav.accessories": "ACESSÓRIOS",
@@ -77,7 +77,7 @@ const pt: Dict = {
   "home.styles": "Comprar por estilo",
   "home.how": "Como funciona",
   "home.how.note":
-    "As encomendas para a Europa têm prazo estimado de até 2 semanas. Os custos de envio são confirmados de acordo com a encomenda.",
+    "As encomendas para a Europa têm prazo estimado de até 15 dias. Os custos de envio são confirmados de acordo com a encomenda.",
   "home.edit": "The M-Shop edit",
   "home.statement.sub":
     "A M-Shop nasceu para aproximar sneakers e acessórios de quem procura estilo, variedade e uma experiência de compra simples.",
@@ -165,7 +165,7 @@ const pt: Dict = {
     "A M-Shop trabalha com atendimento personalizado. O pedido é iniciado no site e confirmado por WhatsApp.",
   "how.shipping": "Envios",
   "how.shipping.1": "Envios para toda a Europa desde €13,50.",
-  "how.shipping.2": "Prazo estimado: até 2 semanas.",
+  "how.shipping.2": "Prazo estimado: até 15 dias.",
   "how.shipping.3": "Encomendas preparadas em Angola e destinadas à Europa.",
   "how.shipping.4":
     "Os custos de envio podem variar de acordo com a quantidade e características da encomenda. O valor final será confirmado pela M-Shop após o pedido.",
@@ -180,7 +180,7 @@ const pt: Dict = {
   "how.faq.q2": "Quanto custa o envio?",
   "how.faq.a2": "Desde €13,50. O valor final depende da quantidade e características da encomenda.",
   "how.faq.q3": "Quanto tempo demora?",
-  "how.faq.a3": "O prazo estimado é de até 2 semanas para a Europa.",
+  "how.faq.a3": "O prazo estimado é de até 15 dias para a Europa.",
   "how.faq.q4": "O pedido no site é definitivo?",
   "how.faq.a4":
     "Não. O pedido fica registado até a M-Shop confirmar disponibilidade, pagamento e envio.",
@@ -224,7 +224,7 @@ const pt: Dict = {
 };
 
 const en: Dict = {
-  "bar.shipping": "SHIPPING ACROSS EUROPE · ESTIMATED UP TO 2 WEEKS",
+  "bar.shipping": "SHIPPING ACROSS EUROPE · ESTIMATED UP TO 15 DAYS",
   "nav.shop": "SHOP",
   "nav.sneakers": "SNEAKERS",
   "nav.accessories": "ACCESSORIES",
@@ -259,7 +259,7 @@ const en: Dict = {
   "home.styles": "Shop by style",
   "home.how": "How it works",
   "home.how.note":
-    "Orders to Europe have an estimated delivery of up to 2 weeks. Shipping costs are confirmed per order.",
+    "Orders to Europe have an estimated delivery of up to 15 days. Shipping costs are confirmed per order.",
   "home.edit": "The M-Shop edit",
   "home.statement.sub":
     "M-Shop exists to bring sneakers and accessories closer to anyone looking for style, choice and a simple way to buy.",
@@ -346,7 +346,7 @@ const en: Dict = {
   "how.sub": "M-Shop works with personal service. You start the order here and confirm it on WhatsApp.",
   "how.shipping": "Shipping",
   "how.shipping.1": "Shipping across Europe from €13.50.",
-  "how.shipping.2": "Estimated delivery: up to 2 weeks.",
+  "how.shipping.2": "Estimated delivery: up to 15 days.",
   "how.shipping.3": "Orders prepared in Angola and shipped across Europe.",
   "how.shipping.4":
     "Shipping costs vary with the quantity and characteristics of the order. The final amount is confirmed by M-Shop after the order.",
@@ -360,7 +360,7 @@ const en: Dict = {
   "how.faq.q2": "How much is shipping?",
   "how.faq.a2": "From €13.50. The final amount depends on the quantity and characteristics of the order.",
   "how.faq.q3": "How long does it take?",
-  "how.faq.a3": "Estimated delivery is up to 2 weeks across Europe.",
+  "how.faq.a3": "Estimated delivery is up to 15 days across Europe.",
   "how.faq.q4": "Is the order on the site final?",
   "how.faq.a4": "No. The order is saved until M-Shop confirms availability, payment and shipping.",
   "how.cta": "TALK TO M-SHOP",
@@ -403,7 +403,7 @@ const en: Dict = {
 };
 
 const es: Dict = {
-  "bar.shipping": "ENVÍOS A TODA EUROPA · PLAZO ESTIMADO HASTA 2 SEMANAS",
+  "bar.shipping": "ENVÍOS A TODA EUROPA · PLAZO ESTIMADO HASTA 15 DÍAS",
   "nav.shop": "TIENDA",
   "nav.sneakers": "SNEAKERS",
   "nav.accessories": "ACCESORIOS",
@@ -438,7 +438,7 @@ const es: Dict = {
   "home.styles": "Comprar por estilo",
   "home.how": "Cómo funciona",
   "home.how.note":
-    "Los pedidos a Europa tienen un plazo estimado de hasta 2 semanas. Los gastos de envío se confirman según el pedido.",
+    "Los pedidos a Europa tienen un plazo estimado de hasta 15 días. Los gastos de envío se confirman según el pedido.",
   "home.edit": "The M-Shop edit",
   "home.statement.sub":
     "M-Shop nació para acercar sneakers y accesorios a quien busca estilo, variedad y una compra sencilla.",
@@ -526,7 +526,7 @@ const es: Dict = {
     "M-Shop trabaja con atención personalizada. El pedido empieza en la web y se confirma por WhatsApp.",
   "how.shipping": "Envíos",
   "how.shipping.1": "Envíos a toda Europa desde 13,50 €.",
-  "how.shipping.2": "Plazo estimado: hasta 2 semanas.",
+  "how.shipping.2": "Plazo estimado: hasta 15 días.",
   "how.shipping.3": "Pedidos preparados en Angola y enviados a Europa.",
   "how.shipping.4":
     "Los gastos de envío varían según la cantidad y características del pedido. El importe final lo confirma M-Shop tras el pedido.",
@@ -541,7 +541,7 @@ const es: Dict = {
   "how.faq.q2": "¿Cuánto cuesta el envío?",
   "how.faq.a2": "Desde 13,50 €. El importe final depende de la cantidad y características del pedido.",
   "how.faq.q3": "¿Cuánto tarda?",
-  "how.faq.a3": "El plazo estimado es de hasta 2 semanas para Europa.",
+  "how.faq.a3": "El plazo estimado es de hasta 15 días para Europa.",
   "how.faq.q4": "¿El pedido de la web es definitivo?",
   "how.faq.a4": "No. El pedido queda registrado hasta que M-Shop confirme disponibilidad, pago y envío.",
   "how.cta": "HABLAR CON M-SHOP",
@@ -584,7 +584,7 @@ const es: Dict = {
 };
 
 const fr: Dict = {
-  "bar.shipping": "LIVRAISON DANS TOUTE L'EUROPE · DÉLAI ESTIMÉ JUSQU'À 2 SEMAINES",
+  "bar.shipping": "LIVRAISON DANS TOUTE L'EUROPE · DÉLAI ESTIMÉ JUSQU'À 15 JOURS",
   "nav.shop": "BOUTIQUE",
   "nav.sneakers": "SNEAKERS",
   "nav.accessories": "ACCESSOIRES",
@@ -619,7 +619,7 @@ const fr: Dict = {
   "home.styles": "Acheter par style",
   "home.how": "Comment ça marche",
   "home.how.note":
-    "Les commandes vers l'Europe ont un délai estimé jusqu'à 2 semaines. Les frais de livraison sont confirmés selon la commande.",
+    "Les commandes vers l'Europe ont un délai estimé jusqu'à 15 jours. Les frais de livraison sont confirmés selon la commande.",
   "home.edit": "The M-Shop edit",
   "home.statement.sub":
     "M-Shop est né pour rapprocher sneakers et accessoires de celles et ceux qui cherchent style, choix et simplicité.",
@@ -707,7 +707,7 @@ const fr: Dict = {
     "M-Shop fonctionne avec un service personnalisé. La commande démarre sur le site et se confirme sur WhatsApp.",
   "how.shipping": "Livraison",
   "how.shipping.1": "Livraison dans toute l'Europe à partir de 13,50 €.",
-  "how.shipping.2": "Délai estimé : jusqu'à 2 semaines.",
+  "how.shipping.2": "Délai estimé : jusqu'à 15 jours.",
   "how.shipping.3": "Commandes préparées en Angola et expédiées en Europe.",
   "how.shipping.4":
     "Les frais de livraison varient selon la quantité et les caractéristiques de la commande. Le montant final est confirmé par M-Shop.",
@@ -722,7 +722,7 @@ const fr: Dict = {
   "how.faq.q2": "Combien coûte la livraison ?",
   "how.faq.a2": "À partir de 13,50 €. Le montant final dépend de la quantité et des caractéristiques.",
   "how.faq.q3": "Combien de temps ça prend ?",
-  "how.faq.a3": "Le délai estimé est jusqu'à 2 semaines pour l'Europe.",
+  "how.faq.a3": "Le délai estimé est jusqu'à 15 jours pour l'Europe.",
   "how.faq.q4": "La commande sur le site est-elle définitive ?",
   "how.faq.a4": "Non. Elle reste enregistrée jusqu'à confirmation de la disponibilité, du paiement et de l'envoi.",
   "how.cta": "PARLER À M-SHOP",
@@ -765,7 +765,7 @@ const fr: Dict = {
 };
 
 const de: Dict = {
-  "bar.shipping": "VERSAND IN GANZ EUROPA · VORAUSSICHTLICH BIS ZU 2 WOCHEN",
+  "bar.shipping": "VERSAND IN GANZ EUROPA · VORAUSSICHTLICH BIS ZU 15 TAGE",
   "nav.shop": "SHOP",
   "nav.sneakers": "SNEAKER",
   "nav.accessories": "ACCESSOIRES",
@@ -800,7 +800,7 @@ const de: Dict = {
   "home.styles": "Nach Stil shoppen",
   "home.how": "So funktioniert's",
   "home.how.note":
-    "Bestellungen innerhalb Europas dauern voraussichtlich bis zu 2 Wochen. Die Versandkosten werden pro Bestellung bestätigt.",
+    "Bestellungen innerhalb Europas dauern voraussichtlich bis zu 15 Tage. Die Versandkosten werden pro Bestellung bestätigt.",
   "home.edit": "The M-Shop edit",
   "home.statement.sub":
     "M-Shop bringt Sneaker und Accessoires zu allen, die Stil, Auswahl und einfaches Einkaufen suchen.",
@@ -888,7 +888,7 @@ const de: Dict = {
     "M-Shop arbeitet mit persönlicher Beratung. Die Bestellung startet auf der Website und wird per WhatsApp bestätigt.",
   "how.shipping": "Versand",
   "how.shipping.1": "Versand in ganz Europa ab 13,50 €.",
-  "how.shipping.2": "Voraussichtliche Lieferzeit: bis zu 2 Wochen.",
+  "how.shipping.2": "Voraussichtliche Lieferzeit: bis zu 15 Tage.",
   "how.shipping.3": "Bestellungen werden in Angola vorbereitet und nach Europa versendet.",
   "how.shipping.4":
     "Die Versandkosten variieren je nach Menge und Eigenschaften der Bestellung. Der Endbetrag wird von M-Shop bestätigt.",
@@ -902,7 +902,7 @@ const de: Dict = {
   "how.faq.q2": "Was kostet der Versand?",
   "how.faq.a2": "Ab 13,50 €. Der Endbetrag hängt von Menge und Eigenschaften der Bestellung ab.",
   "how.faq.q3": "Wie lange dauert es?",
-  "how.faq.a3": "Voraussichtlich bis zu 2 Wochen innerhalb Europas.",
+  "how.faq.a3": "Voraussichtlich bis zu 15 Tage innerhalb Europas.",
   "how.faq.q4": "Ist die Bestellung auf der Website verbindlich?",
   "how.faq.a4": "Nein. Sie bleibt gespeichert, bis M-Shop Verfügbarkeit, Zahlung und Versand bestätigt.",
   "how.cta": "MIT M-SHOP SPRECHEN",
@@ -945,7 +945,7 @@ const de: Dict = {
 };
 
 const it: Dict = {
-  "bar.shipping": "SPEDIZIONI IN TUTTA EUROPA · TEMPI STIMATI FINO A 2 SETTIMANE",
+  "bar.shipping": "SPEDIZIONI IN TUTTA EUROPA · TEMPI STIMATI FINO A 15 GIORNI",
   "nav.shop": "SHOP",
   "nav.sneakers": "SNEAKERS",
   "nav.accessories": "ACCESSORI",
@@ -980,7 +980,7 @@ const it: Dict = {
   "home.styles": "Acquista per stile",
   "home.how": "Come funziona",
   "home.how.note":
-    "Gli ordini verso l'Europa hanno tempi stimati fino a 2 settimane. I costi di spedizione sono confermati in base all'ordine.",
+    "Gli ordini verso l'Europa hanno tempi stimati fino a 15 giorni. I costi di spedizione sono confermati in base all'ordine.",
   "home.edit": "The M-Shop edit",
   "home.statement.sub":
     "M-Shop nasce per avvicinare sneakers e accessori a chi cerca stile, varietà e un acquisto semplice.",
@@ -1068,7 +1068,7 @@ const it: Dict = {
     "M-Shop lavora con assistenza personalizzata. L'ordine parte dal sito e viene confermato su WhatsApp.",
   "how.shipping": "Spedizioni",
   "how.shipping.1": "Spedizioni in tutta Europa da 13,50 €.",
-  "how.shipping.2": "Tempi stimati: fino a 2 settimane.",
+  "how.shipping.2": "Tempi stimati: fino a 15 giorni.",
   "how.shipping.3": "Ordini preparati in Angola e spediti in Europa.",
   "how.shipping.4":
     "I costi di spedizione variano in base a quantità e caratteristiche dell'ordine. L'importo finale è confermato da M-Shop.",
@@ -1082,7 +1082,7 @@ const it: Dict = {
   "how.faq.q2": "Quanto costa la spedizione?",
   "how.faq.a2": "Da 13,50 €. L'importo finale dipende da quantità e caratteristiche dell'ordine.",
   "how.faq.q3": "Quanto tempo richiede?",
-  "how.faq.a3": "I tempi stimati sono fino a 2 settimane per l'Europa.",
+  "how.faq.a3": "I tempi stimati sono fino a 15 giorni per l'Europa.",
   "how.faq.q4": "L'ordine sul sito è definitivo?",
   "how.faq.a4": "No. Resta registrato fino alla conferma di disponibilità, pagamento e spedizione.",
   "how.cta": "PARLA CON M-SHOP",
@@ -1125,7 +1125,7 @@ const it: Dict = {
 };
 
 const pl: Dict = {
-  "bar.shipping": "WYSYŁKA DO CAŁEJ EUROPY · SZACOWANY CZAS DO 2 TYGODNI",
+  "bar.shipping": "WYSYŁKA DO CAŁEJ EUROPY · SZACOWANY CZAS DO 15 DNI",
   "nav.shop": "SKLEP",
   "nav.sneakers": "SNEAKERSY",
   "nav.accessories": "AKCESORIA",
@@ -1160,7 +1160,7 @@ const pl: Dict = {
   "home.styles": "Kupuj według stylu",
   "home.how": "Jak to działa",
   "home.how.note":
-    "Zamówienia do Europy realizujemy w szacowanym czasie do 2 tygodni. Koszt wysyłki potwierdzamy dla każdego zamówienia.",
+    "Zamówienia do Europy realizujemy w szacowanym czasie do 15 dni. Koszt wysyłki potwierdzamy dla każdego zamówienia.",
   "home.edit": "The M-Shop edit",
   "home.statement.sub":
     "M-Shop powstał, by przybliżyć sneakersy i akcesoria osobom, które szukają stylu, wyboru i prostych zakupów.",
@@ -1248,7 +1248,7 @@ const pl: Dict = {
     "M-Shop działa z obsługą indywidualną. Zamówienie zaczynasz na stronie i potwierdzasz na WhatsApp.",
   "how.shipping": "Wysyłka",
   "how.shipping.1": "Wysyłka do całej Europy od 13,50 €.",
-  "how.shipping.2": "Szacowany czas: do 2 tygodni.",
+  "how.shipping.2": "Szacowany czas: do 15 dni.",
   "how.shipping.3": "Zamówienia przygotowywane w Angoli i wysyłane do Europy.",
   "how.shipping.4":
     "Koszty wysyłki zależą od ilości i cech zamówienia. Ostateczną kwotę potwierdza M-Shop po zamówieniu.",
@@ -1262,7 +1262,7 @@ const pl: Dict = {
   "how.faq.q2": "Ile kosztuje wysyłka?",
   "how.faq.a2": "Od 13,50 €. Ostateczna kwota zależy od ilości i cech zamówienia.",
   "how.faq.q3": "Ile to trwa?",
-  "how.faq.a3": "Szacowany czas to do 2 tygodni na terenie Europy.",
+  "how.faq.a3": "Szacowany czas to do 15 dni na terenie Europy.",
   "how.faq.q4": "Czy zamówienie na stronie jest ostateczne?",
   "how.faq.a4": "Nie. Pozostaje zapisane, dopóki M-Shop nie potwierdzi dostępności, płatności i wysyłki.",
   "how.cta": "NAPISZ DO M-SHOP",
