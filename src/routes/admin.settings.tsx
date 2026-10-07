@@ -65,6 +65,25 @@ function SettingsPage() {
             Envio
             <input className={field} value={draft.shippingFrom} maxLength={80} onChange={(e) => set("shippingFrom", e.target.value)} />
           </label>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {([
+              ["shippingBase", "Frete 1º par (€)"],
+              ["shippingExtra", "Cada par extra (€)"],
+              ["freeShippingOver", "Grátis acima de (€, 0 = não)"],
+            ] as const).map(([key, label]) => (
+              <label key={key} className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                {label}
+                <input
+                  type="number"
+                  min={0}
+                  step="0.5"
+                  className={field}
+                  value={draft[key]}
+                  onChange={(e) => set(key, Math.max(0, Number(e.target.value) || 0))}
+                />
+              </label>
+            ))}
+          </div>
           <label className="block text-xs uppercase tracking-[0.14em] text-muted-foreground">
             Mensagem de envio
             <textarea

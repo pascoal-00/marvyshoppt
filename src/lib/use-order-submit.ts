@@ -1,15 +1,13 @@
-import { useServerFn } from "@tanstack/react-start";
-import { createOrder } from "./catalog.functions";
+import { supabase } from "@/integrations/supabase/client";
 import { useCatalog } from "./catalog-context";
 import type { CustomerInfo } from "./customer";
 import { useStore } from "./store";
 
 /**
- * Registers the order in the backend (status NOVO) with the customer data.
- * A registered order is NOT a confirmed payment.
+ * Registers the order (status NOVO) through the database function place_order,
+ * which recalculates prices and shipping server-side. Works on any host (Lovable, Vercel).
  */
 export function useOrderSubmit() {
-  const register = useServerFn(createOrder);
   const { items } = useStore();
   const { products } = useCatalog();
 
@@ -17,17 +15,14 @@ export function useOrderSubmit() {
     const payload = items.flatMap((item) => {
       const product = products.find((p) => p.id === item.productId);
       if (!product) return [];
-      return [
-        {
-          slug: product.slug,
-          size: item.size,
-          quantity: item.quantity,
-          ...(item.color ? { color: item.color } : {}),
-        },
-      ];
+      return [{ slug: product.slug, size: item.size, quantity: item.quantity, color: item.color ?? "" }];
     });
     if (payload.length === 0) return null;
-    const result = await register({ data: { items: payload, customer } });
-    return result.orderNumber as string;
+    const { data, error } = await supabase.rpc("place_order", {
+      _items: payload,
+      _customer: { ...customer, note: customer.note ?? "" },
+    });
+    if (error) throw error;
+    return ((data as { orderNumber?: string } | null)?.orderNumber ?? null) as string | null;
   };
 }
