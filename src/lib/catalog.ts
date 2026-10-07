@@ -80,7 +80,7 @@ export type Catalog = {
 export const DEFAULT_SETTINGS: StoreSettings = {
   storeName: "M-Shop",
   whatsappNumber: "244957280181",
-  deliveryTime: "Até 2 semanas",
+  deliveryTime: "Até 15 dias",
   shippingFrom: "Desde €13,50",
   shippingNote:
     "Os custos de envio podem variar de acordo com a quantidade e características da encomenda. O valor final será confirmado pela M-Shop.",

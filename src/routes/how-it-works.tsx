@@ -10,7 +10,7 @@ export const Route = createFileRoute("/how-it-works")({
       {
         name: "description",
         content:
-          "Escolhe, adiciona ao carrinho e faz o pedido pelo WhatsApp da M-Shop. Envios para a Europa com prazo estimado até 2 semanas.",
+          "Escolhe, adiciona ao carrinho e faz o pedido pelo WhatsApp da M-Shop. Envios para a Europa com prazo estimado até 15 dias.",
       },
       { property: "og:title", content: "Como Funciona | M-Shop" },
       {
