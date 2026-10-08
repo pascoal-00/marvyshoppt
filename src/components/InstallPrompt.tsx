@@ -34,8 +34,8 @@ export function InstallPrompt() {
   if (!visible || !deferred) return null;
 
   return (
-    <div className="fixed inset-x-3 bottom-3 z-50 flex items-center gap-3 border border-border bg-card px-4 py-3 shadow-lg sm:left-auto sm:right-4 sm:w-80">
-      <div className="flex-1">
+    <div className="fixed inset-x-3 bottom-3 z-50 grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border border-border bg-card px-4 py-3 shadow-lg sm:left-auto sm:right-4 sm:w-80">
+      <div className="min-w-0">
         <p className="text-xs font-semibold tracking-[0.18em] text-foreground">INSTALAR M-SHOP</p>
         <p className="mt-1 text-xs text-muted-foreground">
           Acesso rápido à loja, direto do teu ecrã inicial.
@@ -52,7 +52,7 @@ export function InstallPrompt() {
       >
         INSTALAR
       </button>
-      <button type="button" onClick={dismiss} aria-label="Dispensar" className="text-muted-foreground">
+      <button type="button" onClick={dismiss} aria-label="Dispensar" className="grid h-11 w-8 place-items-center text-muted-foreground">
         <X className="h-4 w-4" />
       </button>
     </div>

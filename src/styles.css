@@ -103,15 +103,15 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 }
 
 @utility display {
   font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 0.95;
+  letter-spacing: 0;
+  line-height: 1.05;
   text-transform: uppercase;
 }
 
@@ -127,5 +127,27 @@
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Storefront mobile ergonomics; desktop and the private console remain unchanged. */
+.storefront { min-width: 0; }
+.storefront main { min-width: 0; overflow-wrap: anywhere; }
+.storefront img { max-width: 100%; }
+@media (max-width: 767px) {
+  .storefront button, .storefront input:not([type="checkbox"]):not([type="range"]), .storefront select {
+    min-height: 44px;
+  }
+  .storefront input:not([type="checkbox"]):not([type="range"]), .storefront select, .storefront textarea {
+    font-size: 16px;
+    min-width: 0;
+  }
+  .storefront input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; }
+}
+.mobile-safe-bottom { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+@media (prefers-reduced-motion: reduce) {
+  .storefront *, .storefront *::before, .storefront *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

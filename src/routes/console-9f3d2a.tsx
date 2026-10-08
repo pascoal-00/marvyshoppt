@@ -14,6 +14,7 @@ export const Route = createFileRoute("/console-9f3d2a")({
       { property: "og:title", content: "Acesso" },
       { property: "og:description", content: "Acesso restrito." },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

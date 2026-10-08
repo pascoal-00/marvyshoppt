@@ -20,6 +20,7 @@ export const Route = createFileRoute("/category/$slug")({
         { property: "og:title", content: `${label} | M-Shop` },
         { property: "og:description", content: `${label} selecionados pela M-Shop.` },
         { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
         { property: "og:url", content: `/category/${params.slug}` },
       ],
       links: [{ rel: "canonical", href: `/category/${params.slug}` }],

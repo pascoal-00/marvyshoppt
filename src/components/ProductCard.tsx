@@ -11,7 +11,7 @@ export function ProductCard({ product, variant }: { product: Product; variant?: 
   const title = variant ? `${product.name} — ${variant.colorName}` : product.name;
 
   return (
-    <article className="group relative">
+    <article className="group relative min-w-0">
       <Link
         to="/product/$slug"
         params={{ slug: product.slug }}
@@ -50,19 +50,19 @@ export function ProductCard({ product, variant }: { product: Product; variant?: 
         onClick={() => toggleWishlist(product.id)}
         aria-label={wished ? `Remover ${product.name} dos favoritos` : `Adicionar ${product.name} aos favoritos`}
         aria-pressed={wished}
-        className="absolute right-2 top-2 grid h-9 w-9 place-items-center bg-background/80 text-foreground transition-colors hover:bg-background"
+        className="absolute right-2 top-2 grid h-11 w-11 place-items-center bg-background/80 text-foreground transition-colors hover:bg-background"
       >
         <Heart className={`h-4 w-4 ${wished ? "fill-accent text-accent" : ""}`} />
       </button>
 
       <div className="mt-3 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="truncate text-sm font-semibold tracking-tight">
+          <h3 className="line-clamp-2 min-h-10 break-words text-sm font-semibold">
             <Link to="/product/$slug" params={{ slug: product.slug }} search={search}>
               {title}
             </Link>
           </h3>
-          <p className="mt-1 flex items-baseline gap-2 text-sm">
+          <p className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
             {product.compareAtPrice && product.compareAtPrice > product.price && (
               <span className="text-xs text-muted-foreground line-through">
                 {formatPrice(product.compareAtPrice, product.currency)}
@@ -81,7 +81,7 @@ export function ProductCard({ product, variant }: { product: Product; variant?: 
       <button
         type="button"
         onClick={() => addItem(product, product.sizes[0] ?? "", 1, variant?.colorName ?? null)}
-        className="mt-3 w-full border border-ink px-3 py-2 text-[11px] font-semibold tracking-[0.18em] transition-colors hover:bg-ink hover:text-background"
+        className="mt-3 w-full min-h-11 border border-ink px-3 py-2 text-[11px] font-semibold tracking-[0.18em] transition-colors hover:bg-ink hover:text-background"
       >
         ADICIONAR
       </button>
@@ -103,7 +103,7 @@ export function ProductGrid({ items }: { items: (Product | GridItem)[] }) {
     );
   }
   return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 sm:gap-y-10 md:grid-cols-3 xl:grid-cols-4">
       {items.map((item) => {
         const entry = "product" in item ? item : { product: item, variant: null };
         return (
