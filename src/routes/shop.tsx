@@ -20,6 +20,7 @@ export const Route = createFileRoute("/shop")({
       { property: "og:title", content: "Shop | M-Shop" },
       { property: "og:description", content: "Explora a seleção M-Shop de sneakers e acessórios." },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/shop" },
     ],
     links: [{ rel: "canonical", href: "/shop" }],
@@ -91,7 +92,7 @@ function ShopPage() {
               key={c.id}
               type="button"
               onClick={() => setCategory(c.id)}
-              className={category === c.id ? "border-b border-ink" : "text-muted-foreground"}
+              className={`min-h-11 py-2 ${category === c.id ? "border-b border-ink" : "text-muted-foreground"}`}
             >
               {c.label}
             </button>
@@ -122,7 +123,7 @@ function ShopPage() {
               key={s}
               type="button"
               onClick={() => setSize(size === s ? null : s)}
-              className={`border px-3 py-1 text-xs ${size === s ? "border-ink bg-ink text-background" : "border-border"}`}
+              className={`min-h-11 min-w-11 border px-3 py-2 text-xs ${size === s ? "border-ink bg-ink text-background" : "border-border"}`}
             >
               {s}
             </button>
@@ -130,7 +131,7 @@ function ShopPage() {
         </div>
       </div>
 
-      <label className="flex items-center gap-2 text-sm">
+      <label className="flex min-w-0 items-center gap-2 text-sm">
         <input
           type="checkbox"
           checked={onlyAvailable}
@@ -168,12 +169,12 @@ function ShopPage() {
         >
           FILTROS
         </button>
-        <label className="flex items-center gap-2 text-sm">
+        <label className="flex min-w-0 items-center gap-2 text-sm">
           <span className="eyebrow text-muted-foreground">Ordenar</span>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as typeof sort)}
-            className="border border-border px-2 py-2 text-sm"
+            aria-label="Ordenar produtos" className="min-w-0 flex-1 border border-border px-2 py-2 text-sm"
           >
             {SORTS.map((s) => (
               <option key={s.id} value={s.id}>{s.label}</option>
@@ -185,7 +186,7 @@ function ShopPage() {
       <div className="mt-10 grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
         <aside className="hidden lg:block">{filters}</aside>
         {filtersOpen && <div className="lg:hidden">{filters}</div>}
-        <div>
+        <div className="min-w-0">
           <p className="mb-6 text-xs text-muted-foreground">{results.length} produto(s)</p>
           <ProductGrid items={results} />
         </div>

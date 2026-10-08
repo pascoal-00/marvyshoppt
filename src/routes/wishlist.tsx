@@ -12,6 +12,7 @@ export const Route = createFileRoute("/wishlist")({
       { property: "og:title", content: "Favoritos | M-Shop" },
       { property: "og:description", content: "Os produtos M-Shop que guardaste para mais tarde." },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/wishlist" },
       { name: "robots", content: "noindex" },
     ],

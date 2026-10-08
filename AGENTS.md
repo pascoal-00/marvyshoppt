@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+Storefront-only mobile ergonomics belong under the storefront CSS scope; keep private console layouts unaffected. This prevents mobile fixes from changing administrative controls.

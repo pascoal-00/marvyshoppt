@@ -15,6 +15,7 @@ export const Route = createFileRoute("/cart")({
       { property: "og:title", content: "Carrinho | M-Shop" },
       { property: "og:description", content: "Revê os teus produtos e envia o pedido para o WhatsApp da M-Shop." },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/cart" },
       { name: "robots", content: "noindex" },
     ],
@@ -61,9 +62,9 @@ function CartPage() {
                     <img src={p.images[0]} alt={p.name} loading="lazy" className="aspect-square w-20 object-cover sm:w-24" />
                   </Link>
                   <div className="min-w-0">
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
                       <div className="min-w-0">
-                        <h2 className="truncate text-sm font-semibold">
+                        <h2 className="break-words text-sm font-semibold">
                           <Link to="/product/$slug" params={{ slug: p.slug }}>{p.name}</Link>
                         </h2>
                         <p className="mt-1 text-xs text-muted-foreground">
@@ -81,11 +82,11 @@ function CartPage() {
                         {t("cart.remove")}
                       </button>
                     </div>
-                    <div className="mt-4 flex items-center justify-between gap-3">
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
                       <div className="flex items-center border border-border">
-                        <button type="button" aria-label={t("product.qtyDown")} className="px-3 py-1" onClick={() => setQuantity(item.key, item.quantity - 1)}>−</button>
+                        <button type="button" aria-label={t("product.qtyDown")} className="grid h-11 w-9 place-items-center" onClick={() => setQuantity(item.key, item.quantity - 1)}>−</button>
                         <span className="min-w-8 text-center text-sm">{item.quantity}</span>
-                        <button type="button" aria-label={t("product.qtyUp")} className="px-3 py-1" onClick={() => setQuantity(item.key, item.quantity + 1)}>+</button>
+                        <button type="button" aria-label={t("product.qtyUp")} className="grid h-11 w-9 place-items-center" onClick={() => setQuantity(item.key, item.quantity + 1)}>+</button>
                       </div>
                       <span className="text-sm font-semibold">{price(p.price * item.quantity)}</span>
                     </div>

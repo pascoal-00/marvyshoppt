@@ -21,6 +21,7 @@ export const Route = createFileRoute("/admin/variants")({
       { property: "og:title", content: "Variantes de cor | M-Shop Admin" },
       { property: "og:description", content: "Gerir variantes de cor de cada produto da M-Shop." },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

@@ -21,6 +21,7 @@ export const Route = createFileRoute("/admin/sales")({
       { property: "og:title", content: "Vendas | M-Shop Admin" },
       { property: "og:description", content: "Faturação, pedidos, ticket médio e evolução de vendas da M-Shop." },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

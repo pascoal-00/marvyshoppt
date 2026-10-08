@@ -21,6 +21,15 @@ export function Header() {
   const [term, setTerm] = useState("");
   const navigate = useNavigate();
   const { t } = useI18n();
+  useEffect(() => {
+    if (!menuOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const close = (event: KeyboardEvent) => { if (event.key === "Escape") setMenuOpen(false); };
+    document.addEventListener("keydown", close);
+    return () => { document.body.style.overflow = previous; document.removeEventListener("keydown", close); };
+  }, [menuOpen]);
+
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -39,10 +48,10 @@ export function Header() {
         {t("bar.shipping")}
       </div>
 
-      <div className="mx-auto grid max-w-[1400px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 lg:px-8">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 px-3 py-2 sm:gap-4 sm:px-4 lg:px-8">
         <button
           type="button"
-          className="lg:hidden"
+          className="grid h-11 w-11 shrink-0 place-items-center lg:hidden"
           aria-label={t("a11y.menu")}
           onClick={() => setMenuOpen(true)}
         >
@@ -67,8 +76,8 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex justify-center lg:hidden">
-          <Logo className="h-8" />
+        <div className="flex min-w-0 justify-center lg:hidden">
+          <Logo className="h-7 max-w-full sm:h-8" />
         </div>
 
         <div className="flex items-center justify-end gap-3 sm:gap-4">
@@ -91,7 +100,7 @@ export function Header() {
               </span>
             )}
           </Link>
-          <button type="button" onClick={openDrawer} aria-label={t("a11y.cart")} className="relative">
+          <button type="button" onClick={openDrawer} aria-label={t("a11y.cart")} className="relative grid h-11 w-11 shrink-0 place-items-center">
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
               <span className="absolute -right-2 -top-2 grid h-4 min-w-4 place-items-center bg-accent px-1 text-[10px] font-semibold">
@@ -116,10 +125,10 @@ export function Header() {
       )}
 
       {menuOpen && (
-        <div className="fixed inset-0 z-60 overflow-y-auto bg-ink lg:hidden">
+        <div role="dialog" aria-modal="true" aria-label={t("a11y.menu")} className="fixed inset-0 z-60 overflow-y-auto overscroll-contain bg-ink pb-8 lg:hidden">
           <div className="flex items-center justify-between px-4 py-4">
-            <Logo className="h-8" />
-            <button type="button" aria-label={t("a11y.closeMenu")} onClick={() => setMenuOpen(false)}>
+            <Logo className="h-7 max-w-full sm:h-8" />
+            <button type="button" className="grid h-11 w-11 place-items-center" aria-label={t("a11y.closeMenu")} onClick={() => setMenuOpen(false)}>
               <X className="h-6 w-6" />
             </button>
           </div>

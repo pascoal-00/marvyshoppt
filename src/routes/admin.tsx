@@ -24,6 +24,7 @@ export const Route = createFileRoute("/admin")({
       { property: "og:title", content: "M-Shop Admin" },
       { property: "og:description", content: "Gestão de catálogo, pedidos e definições da M-Shop." },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

@@ -23,6 +23,7 @@ export const Route = createFileRoute("/checkout")({
         content: "Confirma os teus dados de entrega e envia o pedido para o WhatsApp da M-Shop.",
       },
       { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/checkout" },
       { name: "robots", content: "noindex" },
     ],
@@ -170,12 +171,12 @@ function CheckoutPage() {
       </p>
 
       <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <form onSubmit={handleSubmit} noValidate className="grid gap-5 sm:grid-cols-2">
+        <form onSubmit={handleSubmit} noValidate className="min-w-0 grid gap-5 sm:grid-cols-2">
           {FIELDS.map((field) => (
-            <label key={field.key} className={field.wide ? "sm:col-span-2" : ""}>
+            <label key={field.key} className={`min-w-0 ${field.wide ? "sm:col-span-2" : ""}`}>
               <span className="eyebrow">{t(field.label)}</span>
               {field.key === "phone" ? (
-                <div className="mt-2 grid grid-cols-[auto_minmax(0,1fr)]">
+                <div className="mt-2 grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
                   <select
                     aria-label={t("checkout.dial")}
                     value={dial}
@@ -249,14 +250,14 @@ function CheckoutPage() {
           </p>
         </form>
 
-        <aside className="h-fit bg-surface p-6 lg:sticky lg:top-32">
+        <aside className="min-w-0 h-fit bg-surface p-4 sm:p-6 lg:sticky lg:top-32">
           <h2 className="eyebrow">{t("cart.summary")}</h2>
           <ul className="mt-4 space-y-3 text-sm">
             {items.map((item) => {
               const p = products.find((pr) => pr.id === item.productId);
               if (!p) return null;
               return (
-                <li key={item.key} className="flex justify-between gap-3">
+                <li key={item.key} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
                   <span className="min-w-0">
                     <span className="block truncate">{p.name}</span>
                     <span className="text-xs text-muted-foreground">

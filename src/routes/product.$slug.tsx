@@ -29,6 +29,7 @@ export const Route = createFileRoute("/product/$slug")({
         { property: "og:title", content: `${loaderData.name} | M-Shop` },
         { property: "og:description", content: loaderData.description },
         { property: "og:type", content: "product" },
+        { name: "twitter:card", content: "summary_large_image" },
         { property: "og:url", content: `/product/${params.slug}` },
         ...(loaderData.image && loaderData.image.startsWith("https://")
           ? [
@@ -46,18 +47,18 @@ export const Route = createFileRoute("/product/$slug")({
 function ProductPage() {
   const { slug } = Route.useParams();
   const { products, settings } = useCatalog();
-  const product = products.find((p) => p.slug === slug)!;
+  const product = products.find((p) => p.slug === slug);
   const { addItem, toggleWishlist, isWished } = useStore();
-  const [size, setSize] = useState<string | null>(product.sizes.length === 1 ? (product.sizes[0] ?? null) : null);
+  const [size, setSize] = useState<string | null>(product?.sizes.length === 1 ? (product.sizes[0] ?? null) : null);
   const [qty, setQty] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [activeImage, setActiveImage] = useState(0);
 
   const { cor } = Route.useSearch();
   const navigate = Route.useNavigate();
-  const activeVariants = product.variants.filter((v) => v.active);
-  const variant = findVariant(product, cor);
-  const images = variantImages(product, variant);
+  const activeVariants = product?.variants.filter((v) => v.active) ?? [];
+  const variant = product ? findVariant(product, cor) : undefined;
+  const images = product ? variantImages(product, variant) : [];
 
   useEffect(() => {
     setActiveImage(0);
@@ -66,6 +67,8 @@ function ProductPage() {
   const selectColor = (colorSlug: string) => {
     navigate({ to: ".", search: (prev) => ({ ...prev, cor: colorSlug }), replace: true });
   };
+
+  if (!product) throw notFound();
 
   const related = products.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
 
@@ -79,15 +82,15 @@ function ProductPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1400px] px-4 py-8 lg:px-8">
-      <nav aria-label="breadcrumb" className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+    <div className="mx-auto max-w-[1400px] px-4 pb-28 pt-6 sm:pt-8 lg:px-8 lg:pb-8">
+      <nav aria-label="breadcrumb" className="flex min-w-0 flex-wrap gap-y-1 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
         <Link to="/">Home</Link> <span className="px-1">/</span>
         <Link to="/shop"> Shop</Link> <span className="px-1">/</span>
         <span className="text-foreground">{product.name}</span>
       </nav>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-16">
-        <div>
+        <div className="min-w-0">
           <div className="bg-surface">
             <img
               src={images[activeImage] ?? images[0]}
@@ -97,14 +100,14 @@ function ProductPage() {
               className="aspect-square w-full object-cover"
             />
           </div>
-          <div className="mt-3 flex gap-3">
+          <div className="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-2">
             {images.map((img, i) => (
               <button
                 key={img}
                 type="button"
                 onClick={() => setActiveImage(i)}
                 aria-label={`Ver imagem ${i + 1}`}
-                className={`h-20 w-20 border ${i === activeImage ? "border-ink" : "border-transparent"}`}
+                className={`h-16 w-16 shrink-0 border sm:h-20 sm:w-20 ${i === activeImage ? "border-ink" : "border-transparent"}`}
               >
                 <img src={img} alt="" loading="lazy" className="h-full w-full object-cover" />
               </button>
@@ -112,9 +115,9 @@ function ProductPage() {
           </div>
         </div>
 
-        <div>
-          <h1 className="display text-3xl md:text-4xl">{product.name}</h1>
-          <p className="mt-3 flex items-baseline gap-3 text-xl">
+        <div className="min-w-0">
+          <h1 className="display break-words text-3xl leading-tight md:text-4xl">{product.name}</h1>
+          <p className="mt-3 flex flex-wrap items-baseline gap-3 text-xl">
             {product.compareAtPrice && product.compareAtPrice > product.price && (
               <span className="text-base text-muted-foreground line-through">
                 {formatPrice(product.compareAtPrice, product.currency)}
@@ -134,9 +137,9 @@ function ProductPage() {
           </p>
           {activeVariants.length > 0 && (
             <div className="mt-6">
-              <div className="flex items-center justify-between">
+              <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-3">
                 <h2 className="eyebrow">Cor</h2>
-                <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                <span className="min-w-0 break-words text-right text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                   {variant?.colorName}
                   {variant?.sku ? ` · ${variant.sku}` : ""}
                 </span>
@@ -150,7 +153,7 @@ function ProductPage() {
                     aria-pressed={v.id === variant?.id}
                     aria-label={`Cor ${v.colorName}`}
                     title={v.colorName}
-                    className={`h-9 w-9 rounded-full border-2 ${
+                    className={`h-11 w-11 shrink-0 rounded-full border-2 ${
                       v.id === variant?.id ? "border-ink" : "border-border"
                     }`}
                   >
@@ -180,7 +183,7 @@ function ProductPage() {
           )}
 
           <div className="mt-8">
-            <div className="flex items-center justify-between">
+            <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-3">
               <h2 className="eyebrow">Tamanho</h2>
               <span className="text-[11px] text-muted-foreground">
                 {product.category === "sneakers" ? "Numeração EU" : "Guia de tamanhos padrão"}
@@ -205,7 +208,7 @@ function ProductPage() {
             </div>
           </div>
 
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
             <div className="flex items-center border border-border">
               <button type="button" aria-label="Diminuir quantidade" className="px-4 py-3" onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
               <span className="min-w-10 text-center text-sm">{qty}</span>
@@ -215,7 +218,7 @@ function ProductPage() {
               type="button"
               onClick={() => toggleWishlist(product.id)}
               aria-pressed={isWished(product.id)}
-              className="flex items-center gap-2 border border-border px-4 py-3 text-[11px] font-semibold tracking-[0.16em]"
+              className="flex min-w-0 items-center justify-center gap-2 border border-border px-2 py-3 text-[11px] font-semibold tracking-[0.16em]"
             >
               <Heart className={`h-4 w-4 ${isWished(product.id) ? "fill-accent text-accent" : ""}`} />
               WISHLIST
@@ -227,7 +230,7 @@ function ProductPage() {
           <button
             type="button"
             onClick={handleAdd}
-            className="mt-6 hidden w-full bg-ink px-6 py-4 text-[11px] font-semibold tracking-[0.2em] text-background transition-colors hover:bg-accent lg:block"
+            className="mt-6 w-full bg-ink px-6 py-4 text-[11px] font-semibold tracking-[0.2em] text-background transition-colors hover:bg-accent"
           >
             ADICIONAR AO CARRINHO
           </button>
@@ -289,7 +292,7 @@ function ProductPage() {
 
       <AdSlot placement="product_bottom" className="mt-16" />
 
-      <div className="sticky bottom-0 z-40 -mx-4 mt-12 border-t border-border bg-background px-4 py-3 lg:hidden">
+      <div className="mobile-safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background px-4 pt-3 lg:hidden">
         <button
           type="button"
           onClick={handleAdd}

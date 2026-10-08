@@ -18,6 +18,7 @@ export const Route = createFileRoute("/how-it-works")({
         content: "Pedido via WhatsApp, envio para a Europa desde €13,50 e confirmação personalizada.",
       },
       { property: "og:type", content: "article" },
+        { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/how-it-works" },
     ],
     links: [{ rel: "canonical", href: "/how-it-works" }],
@@ -40,7 +41,7 @@ function HowItWorks() {
 
       <ol className="mt-12 grid gap-px bg-border sm:grid-cols-2">
         {STEPS.map((n, i) => (
-          <li key={n} className="bg-background p-8">
+          <li key={n} className="bg-background p-6 sm:p-8">
             <span className="display text-4xl text-accent">{n}</span>
             <h2 className="mt-4 text-base font-semibold tracking-[0.1em]">{t(`steps.${i + 1}.t`)}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{t(`steps.${i + 1}.d`)}</p>
