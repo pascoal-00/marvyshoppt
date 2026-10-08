@@ -15,6 +15,7 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as Console9f3d2aRouteImport } from './routes/console-9f3d2a'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as RastreioRouteImport } from './routes/rastreio'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -62,6 +63,11 @@ const Console9f3d2aRoute = Console9f3d2aRouteImport.update({
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
   path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RastreioRoute = RastreioRouteImport.update({
+  id: '/rastreio',
+  path: '/rastreio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopRoute = ShopRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/rastreio': typeof RastreioRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
   '/admin/ads': typeof AdminAdsRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/rastreio': typeof RastreioRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
   '/admin/ads': typeof AdminAdsRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/console-9f3d2a': typeof Console9f3d2aRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/rastreio': typeof RastreioRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
   '/admin/ads': typeof AdminAdsRoute
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/console-9f3d2a'
     | '/how-it-works'
+    | '/rastreio'
     | '/shop'
     | '/wishlist'
     | '/admin/ads'
@@ -266,6 +276,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/console-9f3d2a'
     | '/how-it-works'
+    | '/rastreio'
     | '/shop'
     | '/wishlist'
     | '/admin/ads'
@@ -291,6 +302,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/console-9f3d2a'
     | '/how-it-works'
+    | '/rastreio'
     | '/shop'
     | '/wishlist'
     | '/admin/ads'
@@ -318,6 +330,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   Console9f3d2aRoute: typeof Console9f3d2aRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  RastreioRoute: typeof RastreioRoute
   ShopRoute: typeof ShopRoute
   WishlistRoute: typeof WishlistRoute
   CategorySlugRoute: typeof CategorySlugRoute
@@ -367,6 +380,13 @@ declare module '@tanstack/react-router' {
       path: '/how-it-works'
       fullPath: '/how-it-works'
       preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rastreio': {
+      id: '/rastreio'
+      path: '/rastreio'
+      fullPath: '/rastreio'
+      preLoaderRoute: typeof RastreioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shop': {
@@ -549,6 +569,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   Console9f3d2aRoute: Console9f3d2aRoute,
   HowItWorksRoute: HowItWorksRoute,
+  RastreioRoute: RastreioRoute,
   ShopRoute: ShopRoute,
   WishlistRoute: WishlistRoute,
   CategorySlugRoute: CategorySlugRoute,
