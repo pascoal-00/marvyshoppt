@@ -61,16 +61,7 @@ export function CartDrawer() {
               {items.map((item) => {
                 const p = products.find((pr) => pr.id === item.productId);
                 if (!p) return null;
-                useEffect(() => {
-    if (!drawerOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const close = (event: KeyboardEvent) => { if (event.key === "Escape") closeDrawer(); };
-    document.addEventListener("keydown", close);
-    return () => { document.body.style.overflow = previous; document.removeEventListener("keydown", close); };
-  }, [drawerOpen, closeDrawer]);
-
-  return (
+                 return (
                   <li key={item.key} className="grid grid-cols-[80px_minmax(0,1fr)] gap-4 py-5">
                     <img src={p.images[0]} alt={p.name} loading="lazy" className="aspect-square w-20 object-cover" />
                     <div className="min-w-0">
