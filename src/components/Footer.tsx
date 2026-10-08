@@ -43,6 +43,7 @@ export function Footer() {
           <div>
             <h3 className="eyebrow break-words text-background/50">{t("footer.help")}</h3>
             <ul className="mt-4 space-y-3 text-sm text-background/80">
+              <li><Link to="/rastreio">Rastrear pedido</Link></li>
               <li><Link to="/how-it-works" hash="faq">FAQ</Link></li>
               <li><Link to="/how-it-works" hash="envios">{t("footer.shipping")}</Link></li>
               <li><Link to="/how-it-works" hash="trocas">{t("footer.returns")}</Link></li>
